@@ -18,8 +18,27 @@ someFunc = putStrLn "someFunc"
 -- []
 --
 
--- med [0..len-1] -> [1,4,7,2,5,8,3,6,9]
--- for right blir det da 0..len-1 og reverse på alle linjene
+-- >>> swap [1,2,3,4,5,6,7,8,9]
+-- >>> swap [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
+-- [4,2,1,4,5,6,7,8,9]
+-- [6,2,3,4,1,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
+--
+
+-- | swap swaps the first and last mark off the first row
+swap :: [Int] -> [Int]
+swap x = do
+    let len = lengthCheck x
+    if len /= 0 then do
+        -- swap item 0 and len in the list
+        -- Get the first line, remove the head and tail (the items to swap)
+        let middleFirstLine = init (tail (take len x))
+        -- Get the rest of the list (drop the first line)
+        let rest = drop len x
+        -- Concattenate the lists
+        [x!!len-1] ++ middleFirstLine ++ [x!!0] ++ rest
+    else
+        -- Return an empty array
+        []   
 
 -- | rollLeft takes a grid and returns the grid rolled left
 rollLeft :: [Int] -> [Int]
