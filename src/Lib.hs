@@ -6,27 +6,46 @@ someFunc :: IO ()
 someFunc = putStrLn "someFunc"
 
 -- | roll left tests, should only allow grid sizes of 3x3 and larger odd numbers, else return empty arrays
+-- >>> rollLeft [1,2,3,4,5,6,7,8,9]
 -- >>> rollLeft [3,2,1]
--- []
---
 -- >>> rollLeft [3,2,1,4]
--- []
---
 -- >>> rollLeft []
+-- [-1,0,1]
+-- []
+-- []
 -- []
 --
 
--- | rollLeft function that handles rolling a board of 3 + 2x size to the left according to the game rules
+-- | rollLeft takes a grid and returns the grid rolled left
 rollLeft :: [Int] -> [Int]
 rollLeft x = do
     let len = lengthCheck x
-    if len /= 0 then
+    if len /= 0 then do
         -- Rotate the array and return it
-        x
+        -- calculate the offset
+        let offset = [((len-1) `div` (-2))..((len-1) `div` 2)]
+        -- rotate the rows
+        rollLeftHelper x offset len
     else
         -- Return an empty array
         []   
 
+-- | rollLeftHelper takes a grid and a offset list, returns the grid rotatet rollLeft
+rollLeftHelper :: [Int] -> [Int] -> Int -> [Int]
+rollLeftHelper arr offset rowLen = do
+    if length offset /= 0 then
+        (rollRowLeft rowLen (head  offset) 0 arr) ++ (rollLeftHelper arr (tail offset) rowLen)
+    else
+        []
+
+-- >>> [-1..1]
+-- (Error while loading modules for evaluation)
+-- [1 of 2] Compiling Lib              ( N:\Skole\AdvancedProgramming\haskell-tick-tack-roll\src\Lib.hs, interpreted )
+-- <BLANKLINE>
+-- N:\Skole\AdvancedProgramming\haskell-tick-tack-roll\src\Lib.hs:28:9-14: error:
+--     parse error on input `offset'
+-- Failed, no modules loaded.
+--
 
 -- >>> rollRowLeft 3 1 0 [1,2,3,4,5,6,7,8,9]
 -- >>> rollRowLeft 3 0 0 [1,2,3,4,5,6,7,8,9]
