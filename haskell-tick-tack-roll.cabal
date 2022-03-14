@@ -25,7 +25,7 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
+      Roll
   other-modules:
       Paths_haskell_tick_tack_roll
   hs-source-dirs:
