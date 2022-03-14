@@ -11,12 +11,15 @@ someFunc = putStrLn "someFunc"
 -- >>> rollLeft [3,2,1]
 -- >>> rollLeft [3,2,1,4]
 -- >>> rollLeft []
--- [1,4,7,2,5,8,3,6,9,4,7,10]
--- [1,6,11,16,21,2,7,12,17,22,3,8,13,18,23,4,9,14,19,24,5,10,15,20,25,6,11,16,21,26]
+-- [3,6,9,2,5,8,1,4,7]
+-- [5,10,15,20,25,4,9,14,19,24,3,8,13,18,23,2,7,12,17,22,1,6,11,16,21]
 -- []
 -- []
 -- []
 --
+
+-- med [0..len-1] -> [1,4,7,2,5,8,3,6,9]
+-- for right blir det da 0..len-1 og reverse på alle linjene
 
 -- | rollLeft takes a grid and returns the grid rolled left
 rollLeft :: [Int] -> [Int]
@@ -25,18 +28,48 @@ rollLeft x = do
     if len /= 0 then do
         -- Rotate the array and return it
         -- calculate the offset
-        let offset = [0..len-1]
+        let offset = reverse [0..len-1]
         -- rotate the rows
-        rollLeftHelper x offset len
+        rollHelper x True offset len
     else
         -- Return an empty array
         []   
 
--- | rollLeftHelper takes a grid and a offset list, returns the grid rotatet rollLeft
-rollLeftHelper :: [Int] -> [Int] -> Int -> [Int]
-rollLeftHelper arr offset rowLen = do
+-- | roll right tests, should only allow grid sizes of 3x3 and larger odd numbers, else return empty arrays
+-- >>> rollRight [1,2,3,4,5,6,7,8,9]
+-- >>> rollRight [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
+-- >>> rollRight [3,2,1]
+-- >>> rollRight [3,2,1,4]
+-- >>> rollRight []
+-- [7,4,1,8,5,2,9,6,3]
+-- [21,16,11,6,1,22,17,12,7,2,23,18,13,8,3,24,19,14,9,4,25,20,15,10,5]
+-- []
+-- []
+-- []
+--
+
+-- rollRight takes a grid and returns the grid rolled right
+rollRight :: [Int] -> [Int]
+rollRight x = do
+    let len = lengthCheck x
+    if len /= 0 then do
+        -- Rotate the array and return it
+        -- calculate the offset
+        let offset = [0..len-1]
+        -- rotate the rows
+        rollHelper x False offset len
+    else
+        -- Return an empty array
+        []   
+
+-- | rollHelper takes a grid and a offset list, returns the grid rotated, left if dir, else right
+rollHelper :: [Int] -> Bool -> [Int] -> Int -> [Int]
+rollHelper arr dir offset rowLen = do
     if length offset /= 0 then
-        (rollRowLeft rowLen (head  offset) 0 arr) ++ (rollLeftHelper arr (tail offset) rowLen)
+        if dir then
+            (rollRowLeft rowLen (head  offset) 0 arr) ++ (rollHelper arr dir (tail offset) rowLen)
+        else
+            reverse (rollRowLeft rowLen (head  offset) 0 arr) ++ (rollHelper arr dir (tail offset) rowLen)
     else
         []
 
@@ -45,12 +78,12 @@ rollLeftHelper arr offset rowLen = do
 --
 -- >>> rollLeftHelper [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25] [3,2,1,0,-1] 5
 
--- >>> rollRowLeft 3 1 0 [1,2,3,4,5,6,7,8,9]
 -- >>> rollRowLeft 3 0 0 [1,2,3,4,5,6,7,8,9]
--- >>> rollRowLeft 3 (-1) 0 [1,2,3,4,5,6,7,8,9]
--- [2,5,8]
+-- >>> rollRowLeft 3 1 0 [1,2,3,4,5,6,7,8,9]
+-- >>> rollRowLeft 3 2 0 [1,2,3,4,5,6,7,8,9]
 -- [1,4,7]
--- [0,3,6]
+-- [2,5,8]
+-- [3,6,9]
 --
 
 -- | rollRowLeft recursive function that rolls a single row left
