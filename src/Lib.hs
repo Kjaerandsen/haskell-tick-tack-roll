@@ -7,10 +7,12 @@ someFunc = putStrLn "someFunc"
 
 -- | roll left tests, should only allow grid sizes of 3x3 and larger odd numbers, else return empty arrays
 -- >>> rollLeft [1,2,3,4,5,6,7,8,9]
+-- >>> rollLeft [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
 -- >>> rollLeft [3,2,1]
 -- >>> rollLeft [3,2,1,4]
 -- >>> rollLeft []
--- [-1,0,1]
+-- [1,4,7,2,5,8,3,6,9,4,7,10]
+-- [1,6,11,16,21,2,7,12,17,22,3,8,13,18,23,4,9,14,19,24,5,10,15,20,25,6,11,16,21,26]
 -- []
 -- []
 -- []
@@ -23,7 +25,7 @@ rollLeft x = do
     if len /= 0 then do
         -- Rotate the array and return it
         -- calculate the offset
-        let offset = [((len-1) `div` (-2))..((len-1) `div` 2)]
+        let offset = [0..len-1]
         -- rotate the rows
         rollLeftHelper x offset len
     else
@@ -38,14 +40,10 @@ rollLeftHelper arr offset rowLen = do
     else
         []
 
--- >>> [-1..1]
--- (Error while loading modules for evaluation)
--- [1 of 2] Compiling Lib              ( N:\Skole\AdvancedProgramming\haskell-tick-tack-roll\src\Lib.hs, interpreted )
--- <BLANKLINE>
--- N:\Skole\AdvancedProgramming\haskell-tick-tack-roll\src\Lib.hs:28:9-14: error:
---     parse error on input `offset'
--- Failed, no modules loaded.
+-- >>> rollLeftHelper [1,2,3,4,5,6,7,8,9] [0,1,2] 3
+-- [1,4,7,2,5,8,3,6,9]
 --
+-- >>> rollLeftHelper [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25] [3,2,1,0,-1] 5
 
 -- >>> rollRowLeft 3 1 0 [1,2,3,4,5,6,7,8,9]
 -- >>> rollRowLeft 3 0 0 [1,2,3,4,5,6,7,8,9]
