@@ -5,23 +5,14 @@ module Lib
 someFunc :: IO ()
 someFunc = putStrLn "someFunc"
 
--- | roll left tests, should only allow grid sizes of 3x3 and larger odd numbers, else return empty arrays
--- >>> rollLeft [1,2,3,4,5,6,7,8,9]
--- >>> rollLeft [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
--- >>> rollLeft [3,2,1]
--- >>> rollLeft [3,2,1,4]
--- >>> rollLeft []
--- [3,6,9,2,5,8,1,4,7]
--- [5,10,15,20,25,4,9,14,19,24,3,8,13,18,23,2,7,12,17,22,1,6,11,16,21]
--- []
--- []
--- []
---
 
+-- | swap tests, swaps the first and last element of the first line in valid grids
 -- >>> swap [1,2,3,4,5,6,7,8,9]
 -- >>> swap [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
--- [4,2,1,4,5,6,7,8,9]
--- [6,2,3,4,1,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
+-- >>> swap [1,2,3]
+-- [3,2,1,4,5,6,7,8,9]
+-- [5,2,3,4,1,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
+-- []
 --
 
 -- | swap swaps the first and last mark off the first row
@@ -40,63 +31,72 @@ swap x = do
         -- Return an empty array
         []   
 
--- | rollLeft takes a grid and returns the grid rolled left
-rollLeft :: [Int] -> [Int]
-rollLeft x = do
-    let len = lengthCheck x
-    if len /= 0 then do
-        -- Rotate the array and return it
-        -- calculate the offset
-        let offset = reverse [0..len-1]
-        -- rotate the rows
-        rollHelper x True offset len
-    else
-        -- Return an empty array
-        []   
-
--- | roll right tests, should only allow grid sizes of 3x3 and larger odd numbers, else return empty arrays
--- >>> rollRight [1,2,3,4,5,6,7,8,9]
--- >>> rollRight [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
--- >>> rollRight [3,2,1]
--- >>> rollRight [3,2,1,4]
--- >>> rollRight []
--- [7,4,1,8,5,2,9,6,3]
--- [21,16,11,6,1,22,17,12,7,2,23,18,13,8,3,24,19,14,9,4,25,20,15,10,5]
--- []
--- []
+-- | roll tests, takes a direction and a grid, rolls the grid the direction
+-- >>> roll "left" [1,2,3,4,5,6,7,8,9]
+-- >>> roll "left" [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
+-- >>> roll "right" [1,2,3,4,5,6,7,8,9]
+-- >>> roll "right" [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
+-- >>> roll "" []
+-- [3,6,9,2,5,8,1,4,7]
+-- [5,10,15,20,25,4,9,14,19,24,3,8,13,18,23,2,7,12,17,22,1,6,11,16,21]
+-- [9,6,3,8,5,2,7,4,1]
+-- [25,20,15,10,5,24,19,14,9,4,23,18,13,8,3,22,17,12,7,2,21,16,11,6,1]
 -- []
 --
 
--- rollRight takes a grid and returns the grid rolled right
-rollRight :: [Int] -> [Int]
-rollRight x = do
-    let len = lengthCheck x
-    if len /= 0 then do
-        -- Rotate the array and return it
-        -- calculate the offset
-        let offset = [0..len-1]
-        -- rotate the rows
-        rollHelper x False offset len
-    else
-        -- Return an empty array
-        []   
-
--- | rollHelper takes a grid and a offset list, returns the grid rotated, left if dir, else right
-rollHelper :: [Int] -> Bool -> [Int] -> Int -> [Int]
-rollHelper arr dir offset rowLen = do
-    if length offset /= 0 then
-        if dir then
-            (rollRowLeft rowLen (head  offset) 0 arr) ++ (rollHelper arr dir (tail offset) rowLen)
-        else
-            reverse (rollRowLeft rowLen (head  offset) 0 arr) ++ (rollHelper arr dir (tail offset) rowLen)
+-- roll function that rolls the grid the specified direction, returns an empty array on failure
+roll :: String -> [Int] -> [Int]
+roll s arr = do
+    if s == "left" then
+        rollHelper True arr
+    else if s == "right" then
+        rollHelper False arr
     else
         []
 
--- >>> rollLeftHelper [1,2,3,4,5,6,7,8,9] [0,1,2] 3
--- [1,4,7,2,5,8,3,6,9]
---
--- >>> rollLeftHelper [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25] [3,2,1,0,-1] 5
+-- rollHelper helper function that rolls the grid the provided direction
+rollHelper :: Bool -> [Int] -> [Int]
+rollHelper dir arr = do
+    let len = lengthCheck arr
+    if len /= 0 then do
+        -- Rotate the array and return it
+        if dir then do
+            -- calculate the offset
+            let offset = reverse [0..len-1]
+            -- rotate the rows
+            rollRowsHelper arr dir offset len
+        else do
+            -- calculate the offset
+            let offset = reverse [0..len-1]
+            -- rotate the rows
+            rollRowsHelper arr dir offset len
+    else
+        -- Return an empty array
+        []   
 
+-- | rollRowsHelper rolls all rows of an array left if true, right if false
+-- >>> rollRowsHelper [1,2,3,4,5,6,7,8,9] True [0,1,2] 3
+-- >>> rollRowsHelper [1,2,3,4,5,6,7,8,9] False [0,1,2] 3
+-- >>> rollRowsHelper [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25] True [3,2,1,0,-1] 5
+-- >>> rollRowsHelper [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25] False [3,2,1,0,-1] 5
+-- [1,4,7,2,5,8,3,6,9]
+-- [7,4,1,8,5,2,9,6,3]
+-- [4,9,14,19,24,3,8,13,18,23,2,7,12,17,22,1,6,11,16,21,0,5,10,15,20]
+-- [24,19,14,9,4,23,18,13,8,3,22,17,12,7,2,21,16,11,6,1,20,15,10,5,0]
+--
+
+-- | rollRowsHelper takes a grid and a offset list, returns the grid rotated, left if dir, else right
+rollRowsHelper :: [Int] -> Bool -> [Int] -> Int -> [Int]
+rollRowsHelper arr dir offset rowLen = do
+    if length offset /= 0 then
+        if dir then
+            (rollRowLeft rowLen (head  offset) 0 arr) ++ (rollRowsHelper arr dir (tail offset) rowLen)
+        else
+            reverse (rollRowLeft rowLen (head  offset) 0 arr) ++ (rollRowsHelper arr dir (tail offset) rowLen)
+    else
+        []
+
+-- | rollRowLeft tests, rolls a single roll left
 -- >>> rollRowLeft 3 0 0 [1,2,3,4,5,6,7,8,9]
 -- >>> rollRowLeft 3 1 0 [1,2,3,4,5,6,7,8,9]
 -- >>> rollRowLeft 3 2 0 [1,2,3,4,5,6,7,8,9]
@@ -114,16 +114,17 @@ rollRowLeft rowLen offSet recCount arr = do
     else
         [arr!!(rowLen*recCount)+offSet] ++ rollRowLeft rowLen offSet (recCount+1) arr
 
--- Need to check if the length sqrt is an integer or not.
 
 -- | lengthCheck tests, works only with valid grid sizes (3x3 + 2x) where x is a whole number
 -- if the length is less than 9, not squarable as a whole number, or not even 0 is returned.
--- >>> lengthCheck [1,2,3,4,5,6,7,8,9]
--- >>> lengthCheck[1,2,3,4,5,6,7,8,9,10,11]
--- >>> lengthCheck[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+-- >>> lengthCheck [1..9]
+-- >>> lengthCheck [1..25]
+-- >>> lengthCheck [1..11]
+-- >>> lengthCheck [1..16]
 -- >>> lengthCheck []
--- >>> lengthCheck [0,1,2]
+-- >>> lengthCheck [1..3]
 -- 3
+-- 5
 -- 0
 -- 0
 -- 0
@@ -150,14 +151,12 @@ lengthCheck x = do
         else
             rowLen
 
--- | Squared integer tests, works with positive, negative and zero values.
+-- | squared integer tests, works with positive, negative and zero values.
 -- >>> squaredInteger 0
--- 0
---
 -- >>> squaredInteger 2
--- 1
---
 -- >>> squaredInteger (-10)
+-- 0
+-- 1
 -- 0
 --
 
