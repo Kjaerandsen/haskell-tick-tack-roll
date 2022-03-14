@@ -27,6 +27,24 @@ rollLeft x = do
         -- Return an empty array
         []   
 
+
+-- >>> rollRowLeft 3 1 0 [1,2,3,4,5,6,7,8,9]
+-- >>> rollRowLeft 3 0 0 [1,2,3,4,5,6,7,8,9]
+-- >>> rollRowLeft 3 (-1) 0 [1,2,3,4,5,6,7,8,9]
+-- [2,5,8]
+-- [1,4,7]
+-- [0,3,6]
+--
+
+-- | rollRowLeft recursive function that rolls a single row left
+-- takes the row length and the whole grid, a deviation and a recursion counter as variables
+rollRowLeft :: Int -> Int -> Int -> [Int] -> [Int]
+rollRowLeft rowLen offSet recCount arr = do
+    if rowLen == recCount then
+        []
+    else
+        [arr!!(rowLen*recCount)+offSet] ++ rollRowLeft rowLen offSet (recCount+1) arr
+
 -- Need to check if the length sqrt is an integer or not.
 
 -- | lengthCheck tests, works only with valid grid sizes (3x3 + 2x) where x is a whole number
