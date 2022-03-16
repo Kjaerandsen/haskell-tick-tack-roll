@@ -10,10 +10,12 @@ module Roll
 
 -- | swap tests, swaps the first and last element of the first line in valid grids
 -- >>> swap [1..9]
--- >>> swap [1..25]
--- >>> swap [1..3]
 -- [3,2,1,4,5,6,7,8,9]
+--
+-- >>> swap [1..25]
 -- [5,2,3,4,1,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
+--
+-- >>> swap [1..3]
 -- []
 --
 
@@ -35,14 +37,24 @@ swap x = do
 
 -- | roll tests, takes a direction and a grid, rolls the grid the direction
 -- >>> roll "left" [1..9]
--- >>> roll "left" [1..25]
--- >>> roll "right" [1..9]
--- >>> roll "right" [1..25]
--- >>> roll "" []
 -- [3,6,9,2,5,8,1,4,7]
+--
+-- >>> roll "left" [1..25]
 -- [5,10,15,20,25,4,9,14,19,24,3,8,13,18,23,2,7,12,17,22,1,6,11,16,21]
+--
+-- >>> roll "right" [1..9]
 -- [9,6,3,8,5,2,7,4,1]
+--
+-- >>> roll "right" [1..25]
 -- [25,20,15,10,5,24,19,14,9,4,23,18,13,8,3,22,17,12,7,2,21,16,11,6,1]
+--
+-- >>> roll "" [1..25]
+-- []
+--
+-- >>> roll "right" []
+-- []
+--
+-- >>> roll "" []
 -- []
 --
 
@@ -78,16 +90,18 @@ rollHelper dir arr = do
 
 -- | rollRowsHelper rolls all rows of an array left if true, right if false
 -- >>> rollRowsHelper [1..9] True [0..2] 3
--- >>> rollRowsHelper [1..9] False [0..2] 3
--- >>> rollRowsHelper [1..25] True [0..4] 5
--- >>> rollRowsHelper [1..25] False (reverse [0..4]) 5
 -- [1,4,7,2,5,8,3,6,9]
+--
+-- >>> rollRowsHelper [1..9] False [0..2] 3
 -- [7,4,1,8,5,2,9,6,3]
+--
+-- >>> rollRowsHelper [1..25] True [0..4] 5
 -- [1,6,11,16,21,2,7,12,17,22,3,8,13,18,23,4,9,14,19,24,5,10,15,20,25]
+--
+-- >>> rollRowsHelper [1..25] False (reverse [0..4]) 5
 -- [25,20,15,10,5,24,19,14,9,4,23,18,13,8,3,22,17,12,7,2,21,16,11,6,1]
 --
 
--- Make roll right just roll left + reverse?
 
 -- | rollRowsHelper takes a grid and a offset list, returns the grid rotated, left if dir, else right
 rollRowsHelper :: [a] -> Bool -> [Int] -> Int -> [a]
@@ -102,12 +116,15 @@ rollRowsHelper arr dir offset rowLen = do
 
 -- | rollRowLeft tests, rolls a single roll left
 -- >>> rollRowLeft 3 0 0 [1..9]
--- >>> rollRowLeft 3 1 0 [1..9]
--- >>> rollRowLeft 3 2 0 [1..9]
 -- [1,4,7]
+--
+-- >>> rollRowLeft 3 1 0 [1..9]
 -- [2,5,8]
+--
+-- >>> rollRowLeft 3 2 0 [1..9]
 -- [3,6,9]
 --
+
 
 -- | rollRowLeft recursive function that rolls a single row left
 -- takes the row length and the whole grid, a deviation and a recursion counter as variables
@@ -122,18 +139,24 @@ rollRowLeft rowLen offSet recCount arr = do
 -- | lengthCheck tests, works only with valid grid sizes (3x3 + 2x) where x is a whole number
 -- if the length is less than 9, not squarable as a whole number, or not even 0 is returned.
 -- >>> lengthCheck [1..9]
--- >>> lengthCheck [1..25]
--- >>> lengthCheck [1..11]
--- >>> lengthCheck [1..16]
--- >>> lengthCheck []
--- >>> lengthCheck [1..3]
 -- 3
+--
+-- >>> lengthCheck [1..25]
 -- 5
--- 0
--- 0
--- 0
+--
+-- >>> lengthCheck [1..11]
 -- 0
 --
+-- >>> lengthCheck [1..16]
+-- 0
+--
+-- >>> lengthCheck []
+-- 0
+--
+-- >>> lengthCheck [1..3]
+-- 0
+--
+
 
 -- | lengthCheck checks if the length is valid, returns the length if valid, 0 if not
 -- if the length is less than 9, not squarable as a whole number, or not even 0 is returned.
@@ -157,16 +180,21 @@ lengthCheck x = do
 
 -- | squared integer tests, works with positive, negative and zero values.
 -- >>> squaredInteger 0
--- >>> squaredInteger 2
--- >>> squaredInteger 9
--- >>> squaredInteger 16
--- >>> squaredInteger (-10)
--- 0
--- 1
--- 3
--- 4
 -- 0
 --
+-- >>> squaredInteger 2
+-- 1
+--
+-- >>> squaredInteger 9
+-- 3
+--
+-- >>> squaredInteger 16
+-- 4
+--
+-- >>> squaredInteger (-10)
+-- 0
+--
+
 
 -- | squaredInteger takes an integer and returns the integer squared rounded to an integer
 squaredInteger :: Int -> Int
