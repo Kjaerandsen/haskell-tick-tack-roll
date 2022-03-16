@@ -92,8 +92,8 @@ rollHelper dir arr = do
 -- >>> rollRowsHelper [1..9] True [0..2] 3
 -- [1,4,7,2,5,8,3,6,9]
 --
--- >>> rollRowsHelper [1..9] False [0..2] 3
--- [7,4,1,8,5,2,9,6,3]
+-- >>> rollRowsHelper [1..9] False (reverse [0..2]) 3
+-- [9,6,3,8,5,2,7,4,1]
 --
 -- >>> rollRowsHelper [1..25] True [0..4] 5
 -- [1,6,11,16,21,2,7,12,17,22,3,8,13,18,23,4,9,14,19,24,5,10,15,20,25]
@@ -110,7 +110,7 @@ rollRowsHelper arr dir offset rowLen = do
         if dir then
             (rollRowLeft rowLen (head offset) 0 arr) ++ (rollRowsHelper arr dir (tail offset) rowLen)
         else
-            reverse (rollRowLeft rowLen (head  offset) 0 arr) ++ (rollRowsHelper arr dir (tail offset) rowLen)
+            (rollRowsHelper arr dir (tail offset) rowLen) ++ reverse (rollRowLeft rowLen (head  offset) 0 arr) 
     else
         []
 
