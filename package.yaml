@@ -1,10 +1,10 @@
 name:                haskell-tick-tack-roll
 version:             0.1.0.0
-github:              "githubuser/haskell-tick-tack-roll"
+github:              "https://git.gvk.idi.ntnu.no/course/prog2006/as/jonask/haskell-tick-tack-roll"
 license:             BSD3
-author:              "Author name here"
-maintainer:          "example@example.com"
-copyright:           "2022 Author name here"
+author:              "Jonas Kjærandsen"
+maintainer:          "jonakj@stud.ntnu.no"
+copyright:           "2022 Jonas Kjærandsen"
 
 extra-source-files:
 - README.md
