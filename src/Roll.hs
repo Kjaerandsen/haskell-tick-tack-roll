@@ -37,16 +37,16 @@ swap x = do
 
 -- | roll tests, takes a direction and a grid, rolls the grid the direction
 -- >>> roll "left" [1..9]
--- [3,6,9,2,5,8,1,4,7]
+-- [1,6,9,2,5,8,3,4,7]
 --
 -- >>> roll "left" [1..25]
--- [5,10,15,20,25,4,9,14,19,24,3,8,13,18,23,2,7,12,17,22,1,6,11,16,21]
+-- [1,10,15,20,25,4,9,14,19,24,3,8,13,18,23,2,7,12,17,22,5,6,11,16,21]
 --
 -- >>> roll "right" [1..9]
--- [9,6,3,8,5,2,7,4,1]
+-- [9,6,1,8,5,2,7,4,3]
 --
 -- >>> roll "right" [1..25]
--- [25,20,15,10,5,24,19,14,9,4,23,18,13,8,3,22,17,12,7,2,21,16,11,6,1]
+-- [25,20,15,10,1,24,19,14,9,4,23,18,13,8,3,22,17,12,7,2,21,16,11,6,5]
 --
 -- >>> roll "" [1..25]
 -- []
@@ -62,9 +62,9 @@ swap x = do
 roll :: String -> [a] -> [a]
 roll s arr = do
     if s == "left" then
-        rollHelper True arr
+        rollHelper True (swap arr)
     else if s == "right" then
-        rollHelper False arr
+        rollHelper False (swap arr)
     else
         []
 
