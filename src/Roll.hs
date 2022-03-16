@@ -5,9 +5,9 @@ module Roll
     ) where
 
 -- | swap tests, swaps the first and last element of the first line in valid grids
--- >>> swap [1,2,3,4,5,6,7,8,9]
--- >>> swap [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
--- >>> swap [1,2,3]
+-- >>> swap [1..9]
+-- >>> swap [1..25]
+-- >>> swap [1..3]
 -- [3,2,1,4,5,6,7,8,9]
 -- [5,2,3,4,1,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
 -- []
@@ -30,10 +30,10 @@ swap x = do
         []   
 
 -- | roll tests, takes a direction and a grid, rolls the grid the direction
--- >>> roll "left" [1,2,3,4,5,6,7,8,9]
--- >>> roll "left" [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
--- >>> roll "right" [1,2,3,4,5,6,7,8,9]
--- >>> roll "right" [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
+-- >>> roll "left" [1..9]
+-- >>> roll "left" [1..25]
+-- >>> roll "right" [1..9]
+-- >>> roll "right" [1..25]
 -- >>> roll "" []
 -- [3,6,9,2,5,8,1,4,7]
 -- [5,10,15,20,25,4,9,14,19,24,3,8,13,18,23,2,7,12,17,22,1,6,11,16,21]
@@ -97,9 +97,9 @@ rollRowsHelper arr dir offset rowLen = do
         []
 
 -- | rollRowLeft tests, rolls a single roll left
--- >>> rollRowLeft 3 0 0 [1,2,3,4,5,6,7,8,9]
--- >>> rollRowLeft 3 1 0 [1,2,3,4,5,6,7,8,9]
--- >>> rollRowLeft 3 2 0 [1,2,3,4,5,6,7,8,9]
+-- >>> rollRowLeft 3 0 0 [1..9]
+-- >>> rollRowLeft 3 1 0 [1..9]
+-- >>> rollRowLeft 3 2 0 [1..9]
 -- [1,4,7]
 -- [2,5,8]
 -- [3,6,9]
