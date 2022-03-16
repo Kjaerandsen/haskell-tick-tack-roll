@@ -16,6 +16,7 @@ main = do
         testRoll
         testRollRowsHelper
 
+-- | testRoll test for roll function
 testRoll :: Spec
 testRoll =
     describe "Tests for roll function" $ do
@@ -32,6 +33,7 @@ testRoll =
         it "Roll right no grid" $ do
             roll "right" ([]::[Int]) `shouldBe` []
 
+-- | testRollRowsHelper test for rollRowsHelper function
 testRollRowsHelper :: Spec
 testRollRowsHelper =
     describe "\nTests for rollRowsHelper function" $ do
