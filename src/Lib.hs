@@ -2,7 +2,7 @@ module Lib
     ( printBoard
     ) where
 
-import Roll
+import Roll -- For checking if the board size is valid
 
 -- | printBoard takes a board and prints it to the screen, error message if the board is invalid
 -- uses the helper function printLineByLine to print each line of the array
