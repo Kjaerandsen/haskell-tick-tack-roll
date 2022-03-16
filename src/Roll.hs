@@ -1,7 +1,11 @@
 module Roll
     ( swap,
       roll,
-      lengthCheck
+      lengthCheck,
+      rollHelper,
+      rollRowsHelper,
+      rollRowLeft,
+      squaredInteger
     ) where
 
 -- | swap tests, swaps the first and last element of the first line in valid grids
