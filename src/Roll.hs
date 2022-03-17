@@ -198,7 +198,11 @@ lengthCheck x = do
 
 -- | squaredInteger takes an integer and returns the integer squared rounded to an integer
 squaredInteger :: Int -> Int
-squaredInteger x = round . sqrt . fromIntegral $ x
+squaredInteger x = do
+    if x > 0 then
+        round . sqrt . fromIntegral $ x
+    else
+        0
 
 -- inspired by the first comment to the solution from kqr at stackoverflow:
 -- The comment: "How does it compare to intSqrt = floor . sqrt . fromInteger ? – kqr Nov 14, 2013 at 7:41"
