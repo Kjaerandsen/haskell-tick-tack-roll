@@ -13,8 +13,14 @@ main = do
     doctest ["-isrc", "app/Main.hs"]
     putStrLn "\nHspec tests:"
     hspec $ do
-        testRoll
+        testSquaredInteger
+        testLengthCheck
+        testSwap
+        testRollRowLeft
         testRollRowsHelper
+        testRollHelper
+        testRoll
+        
 
 -- | testRoll test for roll function
 testRoll :: Spec
@@ -52,3 +58,64 @@ testRollRowsHelper =
             rollRowsHelper [1..9] False ([]::[Int]) 3 `shouldBe` []
         -}
         
+testRollRowLeft :: Spec
+testRollRowLeft =
+    describe "\nTests for rollRowLeft function" $ do
+        it "rollRowLeft 3x3 grid first row" $ do
+           rollRowLeft 3 0 0 [1..9] `shouldBe` [1,4,7]
+        it "rollRowLeft left 5x5 grid first row" $ do
+            rollRowLeft 5 0 0 [1..25] `shouldBe` [1,6,11,16,21]
+
+testLengthCheck :: Spec
+testLengthCheck =
+    describe "\nTests for lengthCheck function" $ do
+        it "lengthCheck valid 3x3 grid" $ do
+           lengthCheck [1..9] `shouldBe` 3
+        it "lengthCheck valid 5x5 grid" $ do
+            lengthCheck [1..25] `shouldBe` 5
+        it "lengthCheck invalid (too small) grid" $ do
+            lengthCheck [1..4] `shouldBe` 0
+        it "lengthCheck invalid (not odd number) grid" $ do
+            lengthCheck [1..16] `shouldBe` 0
+        it "lengthCheck invalid (not squareable into an integer) grid" $ do
+            lengthCheck [1..37] `shouldBe` 0
+
+testSquaredInteger :: Spec
+testSquaredInteger =
+    describe "\nTests for squaredInteger function" $ do
+        it "nine is 3 to the power of two" $ do
+           squaredInteger 9 `shouldBe` 3
+        it "16 is four to the power of two" $ do
+            squaredInteger 16 `shouldBe` 4
+        it "25 is five to the power of two" $ do
+            squaredInteger 25 `shouldBe` 5
+        it "Rounds the squared number if it doesn't return an integer" $ do
+            squaredInteger 14 `shouldBe` 4
+        it "Handles zero value gracefully" $ do
+            squaredInteger 0 `shouldBe` 0
+        it "Handles negatives gracefully" $ do
+            squaredInteger (-25) `shouldBe` 0
+
+testSwap :: Spec
+testSwap =
+    describe "\nTests for swap function" $ do
+        it "3x3 grid should swap item one and three" $ do
+            swap [1..9] `shouldBe` [3,2,1,4,5,6,7,8,9]
+        it "5x5 grid should swap item one and five" $ do
+            swap [1..25] `shouldBe` [5,2,3,4,1,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
+        it "4x4 grid is invalid and should return an empty array" $ do
+            swap [1..16] `shouldBe` []
+        it "empty input should produce empty output" $ do
+            swap ([]::[Int]) `shouldBe` []
+
+testRollHelper :: Spec
+testRollHelper =
+    describe "\nTests for rollHelper function" $ do
+        it "3x3 grid should swap item one and three" $ do
+            swap [1..9] `shouldBe` [3,2,1,4,5,6,7,8,9]
+        it "5x5 grid should swap item one and five" $ do
+            swap [1..25] `shouldBe` [5,2,3,4,1,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
+        it "4x4 grid is invalid and should return an empty array" $ do
+            swap [1..16] `shouldBe` []
+        it "empty input should produce empty output" $ do
+            swap ([]::[Int]) `shouldBe` []
