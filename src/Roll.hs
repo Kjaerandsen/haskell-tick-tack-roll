@@ -68,6 +68,20 @@ roll s arr = do
     else
         []
 
+-- | rollHelper tests, takes a direction and a grid, returns the grid rotated that direction
+-- >>> rollHelper True [1..9]
+-- [3,6,9,2,5,8,1,4,7]
+--
+-- >>> rollHelper False [1..25]
+-- [21,16,11,6,1,22,17,12,7,2,23,18,13,8,3,24,19,14,9,4,25,20,15,10,5]
+--
+-- >>> rollHelper False []
+-- []
+--
+-- >>> rollHelper True [1..16]
+-- []
+--
+
 -- rollHelper helper function that rolls the grid the provided direction
 rollHelper :: Bool -> [a] -> [a]
 rollHelper dir arr = do
