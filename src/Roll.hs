@@ -61,46 +61,46 @@ swap x = do
 -- roll function that rolls the grid the specified direction, returns an empty array on failure
 roll :: String -> [a] -> [a]
 roll s arr = do
-    if s == "left" then
-        rollHelper True (swap arr)
-    else if s == "right" then
-        rollHelper False (swap arr)
+    let len = lengthCheck arr
+    if len /= 0 then do
+        if s == "left" then
+            rollHelper len True (swap arr)
+        else if s == "right" then
+            rollHelper len False (swap arr)
+        else
+            -- Return an empty array
+            []
     else
-        []
+        -- Return an empty array
+        []   
 
 -- | rollHelper tests, takes a direction and a grid, returns the grid rotated that direction
--- >>> rollHelper True [1..9]
+-- >>> rollHelper 3 True [1..9]
 -- [3,6,9,2,5,8,1,4,7]
 --
--- >>> rollHelper False [1..25]
+-- >>> rollHelper 5 False [1..25]
 -- [21,16,11,6,1,22,17,12,7,2,23,18,13,8,3,24,19,14,9,4,25,20,15,10,5]
 --
--- >>> rollHelper False []
--- []
---
--- >>> rollHelper True [1..16]
+-- >>> rollHelper 0 False []
 -- []
 --
 
 -- rollHelper helper function that rolls the grid the provided direction
-rollHelper :: Bool -> [a] -> [a]
-rollHelper dir arr = do
-    let len = lengthCheck arr
-    if len /= 0 then do
-        -- Rotate the array and return it
-        if dir then do
-            -- calculate the offset
-            let offset = reverse [0..(len-1)]
-            -- rotate the rows
-            rollRowsHelper arr dir offset len
-        else do
-            -- calculate the offset
-            let offset = reverse [0..(len-1)]
-            -- rotate the rows
-            rollRowsHelper arr dir offset len
-    else
-        -- Return an empty array
-        []   
+rollHelper :: Int -> Bool -> [a] -> [a]
+rollHelper _ _ [] = []
+rollHelper len dir arr = do
+    -- Rotate the array and return it
+    if dir then do
+        -- calculate the offset
+        let offset = reverse [0..(len-1)]
+        -- rotate the rows
+        rollRowsHelper arr dir offset len
+    else do
+        -- calculate the offset
+        let offset = reverse [0..(len-1)]
+        -- rotate the rows
+        rollRowsHelper arr dir offset len
+    
 
 -- | rollRowsHelper rolls all rows of an array left if true, right if false
 -- >>> rollRowsHelper [1..9] True [0..2] 3

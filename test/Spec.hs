@@ -102,17 +102,15 @@ testRollHelper :: Spec
 testRollHelper =
     describe "\nTests for rollHelper function" $ do
         it "3x3 grid left" $ do
-            rollHelper True [1..9] `shouldBe` [3,6,9,2,5,8,1,4,7]
+            rollHelper 3 True [1..9] `shouldBe` [3,6,9,2,5,8,1,4,7]
         it "5x5 grid left" $ do
-            rollHelper True [1..25] `shouldBe` [5,10,15,20,25,4,9,14,19,24,3,8,13,18,23,2,7,12,17,22,1,6,11,16,21]
+            rollHelper 5 True [1..25] `shouldBe` [5,10,15,20,25,4,9,14,19,24,3,8,13,18,23,2,7,12,17,22,1,6,11,16,21]
         it "3x3 grid right" $ do
-            rollHelper False [1..9] `shouldBe` [7,4,1,8,5,2,9,6,3]
+            rollHelper 3 False [1..9] `shouldBe` [7,4,1,8,5,2,9,6,3]
         it "5x5 grid right" $ do
-            rollHelper False [1..25] `shouldBe` [21,16,11,6,1,22,17,12,7,2,23,18,13,8,3,24,19,14,9,4,25,20,15,10,5]
-        it "4x4 grid is invalid and should return an empty array" $ do
-            rollHelper True [1..16] `shouldBe` []
-        it "empty input should produce empty output" $ do
-            rollHelper False ([]::[Int]) `shouldBe` []
+            rollHelper 5 False [1..25] `shouldBe` [21,16,11,6,1,22,17,12,7,2,23,18,13,8,3,24,19,14,9,4,25,20,15,10,5]
+        it "empty input array should produce empty output" $ do
+            rollHelper 3 False ([]::[Int]) `shouldBe` []
 
 -- | testRoll test for roll function
 testRoll :: Spec
@@ -128,6 +126,8 @@ testRoll =
             roll "right" [1..25] `shouldBe` [21,16,11,6,5,22,17,12,7,2,23,18,13,8,3,24,19,14,9,4,25,20,15,10,1]
         it "Roll no direction 3x3 grid" $ do
             roll "" [1..9] `shouldBe` []
+        it "Invalid grid size" $ do
+            roll "right" [1..16] `shouldBe` []
         it "Roll right no grid" $ do
             roll "right" ([]::[Int]) `shouldBe` []
 
