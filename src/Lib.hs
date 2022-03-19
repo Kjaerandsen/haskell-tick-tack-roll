@@ -49,11 +49,31 @@ winCheck a = do
         -- make a list of the right diagonal and check the item count of X and O
 
         -- make a list of top down left, mid and right and check the counts of X and O
-        --membersInListHelper (take len [a])
+        -- if membersInListHelper (take len [a]) /= '_' then
+            
         -- check line by line
         '_'
     else -- Default to blank output if invalid input
         '_'
+
+-- >>> winCheckHorizontal 3 ['X','X','X','O','X','O','X','_','X']
+-- 'X'
+--
+-- >>> winCheckHorizontal 3 ['O','O','O','X','O','X','X','_','X']
+-- 'O'
+--
+
+-- | winCheckHorizontal takes a grid size and a grid, returns the winner or '_', for horizontal wins
+-- recurses until empty, if no winner before empty then return '_' 
+winCheckHorizontal :: Int -> [Char] -> Char
+winCheckHorizontal x a = do
+    -- Take a line
+    let line = take x a
+    let winner = membersInListHelper x line
+    if winner /= '_' || length a == x  then
+        winner
+    else
+        winCheckHorizontal x (drop x a)
 
 -- | membersInListhelper, helper function for membersInList, 
 -- calls it with both characters and returns a victor if there is one
