@@ -48,11 +48,13 @@ winCheck a = do
         
         -- make a list of the right diagonal and check the item count of X and O
 
-        -- make a list of top down left, mid and right and check the counts of X and O
-        -- if membersInListHelper (take len [a]) /= '_' then
-            
         -- check line by line
-        '_'
+        let result = winCheckHorizontal len a -- Check horizontal lines
+        if result /= '_' then
+            result 
+        else do -- Check vertical lines
+            let result = winCheckHorizontal len (roll "right" a)
+            result
     else -- Default to blank output if invalid input
         '_'
 
@@ -74,6 +76,9 @@ winCheckHorizontal x a = do
         winner
     else
         winCheckHorizontal x (drop x a)
+
+--winCheckDiagonal :: Bool -> [Char] -> Char
+
 
 -- | membersInListhelper, helper function for membersInList, 
 -- calls it with both characters and returns a victor if there is one
