@@ -6,6 +6,7 @@ import Test.Hspec.QuickCheck(prop)
 
 -- Functions to test
 import Roll -- Rolling functions
+import Lib -- Other functions
 
 main :: IO ()
 main = do
@@ -129,3 +130,39 @@ testRoll =
             roll "" [1..9] `shouldBe` []
         it "Roll right no grid" $ do
             roll "right" ([]::[Int]) `shouldBe` []
+
+-- | testWinCheck test for winCheck function
+testWinCheck :: Spec
+testWinCheck =
+    describe "Tests for WinCheck function" $ do
+        it "3x3 board top-left->bottom-right" $ do
+            winCheck ['X','O','_',
+                      '_','X','O',
+                      '_','_','X'] `shouldBe` 'X'
+        it "3x3 board top-right->bottom-left" $ do
+            winCheck ['O','X','O',
+                      '_','O','X',
+                      'O','_','X'] `shouldBe` 'O'
+        it "3x3 board top-left->bottom-left" $ do
+            winCheck ['X','O','O',
+                      'X','O','X',
+                      'X','_','X'] `shouldBe` 'X'
+        it "3x3 board top-right->bottom-right" $ do
+            winCheck ['X','X','O',
+                      '_','X','O',
+                      'X','_','O'] `shouldBe` 'O'
+        it "3x3 board bottom-left->bottom-right" $ do
+            winCheck ['X','O','O',
+                      'O','O','X',
+                      'X','X','X'] `shouldBe` 'X'
+        it "3x3 board top-left->top-right" $ do
+            winCheck ['O','O','O',
+                      '_','X','X',
+                      'X','_','X'] `shouldBe` 'O'
+        it "3x3 board no win pattern" $ do
+            winCheck ['O','X','O',
+                      'O','X','X',
+                      'X','O','X'] `shouldBe` 'O'
+        it "invalid board" $ do
+            winCheck ([]::[Char]) `shouldBe` '_'
+        

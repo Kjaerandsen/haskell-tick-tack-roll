@@ -1,5 +1,6 @@
 module Lib
-    ( printBoard
+    ( printBoard,
+      winCheck
     ) where
 
 import Roll -- For checking if the board size is valid
@@ -35,3 +36,8 @@ printLine i = do
         printLine (tail i)
     else
         putStr "\n"
+
+-- | winCheck takes a grid, determines the grid size and player pieces, returns the winner
+-- or blank if no winner in the current board state
+winCheck :: [Char] -> Char
+winCheck [a] = '_'
