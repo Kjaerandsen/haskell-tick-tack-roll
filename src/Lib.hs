@@ -53,7 +53,7 @@ winCheck a = do
         if result /= '_' then
             result 
         else do -- Check vertical lines
-            let result = winCheckHorizontal len (roll "right" a)
+            let result = winCheckHorizontal len (rollHelper len True a)
             result
     else -- Default to blank output if invalid input
         '_'
