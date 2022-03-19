@@ -45,13 +45,30 @@ winCheck a = do
     let len = lengthCheck a
     if len /= 0 then do
         -- make a list of the left diagonal and check the item count of X and O
-
+        
         -- make a list of the right diagonal and check the item count of X and O
 
         -- make a list of top down left, mid and right and check the counts of X and O
-
+        --membersInListHelper (take len [a])
         -- check line by line
         '_'
     else -- Default to blank output if invalid input
         '_'
+
+-- | membersInListhelper, helper function for membersInList, 
+-- calls it with both characters and returns a victor if there is one
+membersInListHelper :: Int -> [Char] -> Char
+membersInListHelper x a = do
+    if membersInList 'X' a == x then
+        'X'
+    else if membersInList 'O' a == x then
+        'O'
+    else
+        '_'
     
+
+-- | membersInList, uses list comprehension to go through each element of the input list, comparing it to
+-- the signature and returning the number of occurrences
+-- same as mySignature function from haskell-01
+membersInList :: Eq a => a -> [a] -> Int
+membersInList z xs = sum [if z == x then 1 else 0 | x <- xs]
