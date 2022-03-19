@@ -1,5 +1,4 @@
-.stack-work/
-.idea/
-.vscode/
-.dist-newstyle/
-*~
+stack-work/
+idea/
+vscode/
+dist-newstyle/
