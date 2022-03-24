@@ -44,40 +44,25 @@ winCheck arr = do
     -- get the line length
     let len = lengthCheck arr
     if len /= 0 then do
-        -- make a list of the left diagonal and check the item count of X and O
-        
-        -- make a list of the right diagonal and check the item count of X and O
-
-        -- check line by line
-        let result = winCheckHorizontal len arr -- Check horizontal lines
+        -- check diagonal
+        let result = winCheckHorizontal len (createDiagonalLines len arr)
         if result /= '_' then
-            result 
-        else do -- Check vertical lines
-            let result = winCheckHorizontal len (rollHelper len True arr)
             result
+        else do
+            -- check line by line
+            let result = winCheckHorizontal len arr -- Check horizontal lines
+            if result /= '_' then
+                result 
+            else do -- Check vertical lines
+                let result = winCheckHorizontal len (rollHelper len True arr)
+                result
     else -- Default to blank output if invalid input
         '_'
 
---winCheckDiagonal :: Int -> [Char] -> Char
---winCheckDiagonal len arr = do
-    -- Take the two diagonal lines, add them to a string, 
-    -- check the string with winCheckHorizontal
-    -- for right diagonal start at first value, then go to that value + 4 + 2*(len-3)
-    --let list = []
-    -- for left diagonal start at len value, then go to that value + 2 + 2*(len-3)
-
-
-createDiagonalFromCoords :: [Int] -> [Char] -> [Char]
-createDiagonalFromCoords coordinates board = do
-    [board!!x | x <- coordinates]
-
---createDiagonalLine :: Int -> [Char] -> [Char]
---createDiagonalLine len board = do
-
-
--- >>> test [0,4,8,2,4,6] ['X','X','X','O','X','O','X','_','X']
--- "XXXXXX"
---
+-- | createDiagonalLines takes a board length and a board, returns the two diagonal lines' pieces as a list
+createDiagonalLines :: Int -> [Char] -> [Char]
+createDiagonalLines len board = do
+    createDiagonalFromCoords ((createDiagonalLineHelper True len 0) ++ (createDiagonalLineHelper False len 0)) board
 
 -- | createDiagonalLineHelper line takes an array length and returns the left or right diagonal line
 -- according to the right bool
@@ -93,13 +78,25 @@ createDiagonalLineHelper right len recCount = do
 
 -- | createDiagonalLineHelper tests for left and right with grid sizes 3 and 5
 -- >>> createDiagonalLineHelper True 3 0
--- >>> createDiagonalLineHelper False 3 0
--- >>> createDiagonalLineHelper True 5 0
--- >>> createDiagonalLineHelper False 5 0
 -- [0,4,8]
+--
+-- >>> createDiagonalLineHelper False 3 0
 -- [2,4,6]
+--
+-- >>> createDiagonalLineHelper True 5 0
 -- [0,6,12,18,24]
+--
+-- >>> createDiagonalLineHelper False 5 0
 -- [4,8,12,16,20]
+--
+
+
+-- | createDiagonalFromCoords takes a list of coords and a board and returns the board slots corresponding to the coords
+createDiagonalFromCoords :: [Int] -> [Char] -> [Char]
+createDiagonalFromCoords coordinates board = [board!!x | x <- coordinates]
+
+-- >>> createDiagonalFromCoords [0,4,8,2,4,6] ['X','X','X','O','X','O','X','_','X']
+-- "XXXXXX"
 --
 
 -- >>> winCheckHorizontal 3 ['X','X','X','O','X','O','X','_','X']
