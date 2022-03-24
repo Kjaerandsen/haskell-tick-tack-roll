@@ -6,6 +6,44 @@ import Lib
 main :: IO ()
 main = printBoard [1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5]
 
+
+-- | doMove takes a move and a board, returns the board if the move is successfull
+-- else if the spot is occupied returns an empty array
+doMove :: Char -> Int -> [Char] -> [Char]
+doMove piece move board = do
+    if (length board) < move then
+        []
+    else if board!!(move-1) /= '_' then
+        []
+    else
+        (take (move-1) board) ++ [piece] ++ drop move board
+
+-- | doMove tests:
+-- >>> doMove 'X' 10 ['X','O','X','O','X','O','_','_','_']
+-- ""
+--
+-- >>> doMove 'X' 9 ['X','O','X','O','X','O','_','_','_']
+-- "XOXOXO__X"
+--
+-- >>> doMove 'X' 1 ['X','O','X','O','X','O','_','_','_']
+-- ""
+--
+-- >>> doMove 'X' 1 ['_','O','X','O','X','O','_','_','_']
+-- "XOXOXO___"
+--
+
+-- >>> map ([]:) "XOXOXO___"
+-- <interactive>:3701:12-22: error:
+--     * Couldn't match type `Char' with `[[a]]'
+--       Expected type: [[[a]]]
+--         Actual type: [Char]
+--     * In the second argument of `map', namely `"XOXOXO___"'
+--       In the expression: map ([] :) "XOXOXO___"
+--       In an equation for `it': it = map ([] :) "XOXOXO___"
+--     * Relevant bindings include
+--         it :: [[[a]]] (bound at <interactive>:3701:2)
+--
+
 -- Function for setting up the game, decide board size, mode (vs bot or player),
 -- if bot then which piece the bot plays as. Possibly also bot difficulty.
 
@@ -45,13 +83,3 @@ mainLoop finished bot turn board = do
                     mainLoop finished bot turn board
 -}
 
-{-
--- | doMove takes a move and a board, returns the board if the move is successfull
--- else if the spot is occupied returns an empty array
-doMove :: Char -> Int -> [Char] -> [Char]
-doMove piece move board = do
-    if board!!move /= '_' then
-        []
-    else
-        
--}
