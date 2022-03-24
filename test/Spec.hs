@@ -22,6 +22,7 @@ main = do
         testRollRowsHelper
         testRollHelper
         testRoll
+        testWinCheck
         
 
 testSquaredInteger :: Spec
@@ -162,7 +163,7 @@ testWinCheck =
         it "3x3 board no win pattern" $ do
             winCheck ['O','X','O',
                       'O','X','X',
-                      'X','O','X'] `shouldBe` 'O'
+                      'X','O','X'] `shouldBe` '_'
         it "invalid board" $ do
             winCheck ([]::[Char]) `shouldBe` '_'
         
