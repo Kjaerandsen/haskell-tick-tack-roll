@@ -1,6 +1,7 @@
 module Lib
     ( printBoard,
-      winCheck
+      winCheck,
+      membersInList
     ) where
 
 import Roll -- For checking if the board size is valid
