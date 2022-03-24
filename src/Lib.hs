@@ -40,7 +40,7 @@ printLine i = do
 -- | winCheck takes a grid, determines the grid size and player pieces, returns the winner
 -- or blank if no winner in the current board state
 winCheck :: [Char] -> Char
-winCheck a = do
+winCheck arr = do
     -- get the line length
     let len = lengthCheck arr
     if len /= 0 then do
@@ -67,23 +67,35 @@ winCheck a = do
     -- for left diagonal start at len value, then go to that value + 2 + 2*(len-3)
 
 
--- | createDiagonalLine line takes an array length and returns the left or right diagonal line
+createDiagonalFromCoords :: [Int] -> [Char] -> [Char]
+createDiagonalFromCoords coordinates board = do
+    [board!!x | x <- coordinates]
+
+--createDiagonalLine :: Int -> [Char] -> [Char]
+--createDiagonalLine len board = do
+
+
+-- >>> test [0,4,8,2,4,6] ['X','X','X','O','X','O','X','_','X']
+-- "XXXXXX"
+--
+
+-- | createDiagonalLineHelper line takes an array length and returns the left or right diagonal line
 -- according to the right bool
-createDiagonalLine :: Bool -> Int -> Int -> [Int]
-createDiagonalLine right len recCount = do
+createDiagonalLineHelper :: Bool -> Int -> Int -> [Int]
+createDiagonalLineHelper right len recCount = do
     if len == recCount then
         []
     else
         if right then 
-            [0+(recCount*(len+1))] ++ (createDiagonalLine right len (recCount+1))
+            [0+(recCount*(len+1))] ++ (createDiagonalLineHelper right len (recCount+1))
         else
-            [(len-1)+(recCount*(len-1))] ++ (createDiagonalLine right len (recCount+1))
+            [(len-1)+(recCount*(len-1))] ++ (createDiagonalLineHelper right len (recCount+1))
 
--- | CreateDiagonalLine tests for left and right with grid sizes 3 and 5
--- >>> createDiagonalLine True 3 0
--- >>> createDiagonalLine False 3 0
--- >>> createDiagonalLine True 5 0
--- >>> createDiagonalLine False 5 0
+-- | createDiagonalLineHelper tests for left and right with grid sizes 3 and 5
+-- >>> createDiagonalLineHelper True 3 0
+-- >>> createDiagonalLineHelper False 3 0
+-- >>> createDiagonalLineHelper True 5 0
+-- >>> createDiagonalLineHelper False 5 0
 -- [0,4,8]
 -- [2,4,6]
 -- [0,6,12,18,24]
