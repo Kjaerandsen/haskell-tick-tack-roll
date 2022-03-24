@@ -42,21 +42,53 @@ printLine i = do
 winCheck :: [Char] -> Char
 winCheck a = do
     -- get the line length
-    let len = lengthCheck a
+    let len = lengthCheck arr
     if len /= 0 then do
         -- make a list of the left diagonal and check the item count of X and O
         
         -- make a list of the right diagonal and check the item count of X and O
 
         -- check line by line
-        let result = winCheckHorizontal len a -- Check horizontal lines
+        let result = winCheckHorizontal len arr -- Check horizontal lines
         if result /= '_' then
             result 
         else do -- Check vertical lines
-            let result = winCheckHorizontal len (rollHelper len True a)
+            let result = winCheckHorizontal len (rollHelper len True arr)
             result
     else -- Default to blank output if invalid input
         '_'
+
+--winCheckDiagonal :: Int -> [Char] -> Char
+--winCheckDiagonal len arr = do
+    -- Take the two diagonal lines, add them to a string, 
+    -- check the string with winCheckHorizontal
+    -- for right diagonal start at first value, then go to that value + 4 + 2*(len-3)
+    --let list = []
+    -- for left diagonal start at len value, then go to that value + 2 + 2*(len-3)
+
+
+-- | createDiagonalLine line takes an array length and returns the left or right diagonal line
+-- according to the right bool
+createDiagonalLine :: Bool -> Int -> Int -> [Int]
+createDiagonalLine right len recCount = do
+    if len == recCount then
+        []
+    else
+        if right then 
+            [0+(recCount*(len+1))] ++ (createDiagonalLine right len (recCount+1))
+        else
+            [(len-1)+(recCount*(len-1))] ++ (createDiagonalLine right len (recCount+1))
+
+-- | CreateDiagonalLine tests for left and right with grid sizes 3 and 5
+-- >>> createDiagonalLine True 3 0
+-- >>> createDiagonalLine False 3 0
+-- >>> createDiagonalLine True 5 0
+-- >>> createDiagonalLine False 5 0
+-- [0,4,8]
+-- [2,4,6]
+-- [0,6,12,18,24]
+-- [4,8,12,16,20]
+--
 
 -- >>> winCheckHorizontal 3 ['X','X','X','O','X','O','X','_','X']
 -- 'X'
