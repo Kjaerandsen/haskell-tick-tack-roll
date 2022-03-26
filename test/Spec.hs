@@ -160,9 +160,13 @@ testWinCheck =
             winCheck ['O','O','O',
                       '_','X','X',
                       'X','_','X'] `shouldBe` 'O'
-        it "3x3 board no win pattern" $ do
+        it "3x3 board tie" $ do
             winCheck ['O','X','O',
                       'O','X','X',
+                      'X','O','X'] `shouldBe` ' '
+        it "3x3 board no win pattern" $ do
+            winCheck ['O','_','O',
+                      'O','X','_',
                       'X','O','X'] `shouldBe` '_'
         it "invalid board" $ do
             winCheck ([]::[Char]) `shouldBe` '_'
