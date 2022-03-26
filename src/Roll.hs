@@ -49,7 +49,7 @@ swap x = do
 -- [21,16,11,6,5,22,17,12,7,2,23,18,13,8,3,24,19,14,9,4,25,20,15,10,1]
 --
 -- >>> roll "" [1..25]
--- []
+-- [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
 --
 -- >>> roll "right" []
 -- []
@@ -68,8 +68,8 @@ roll s arr = do
         else if s == "right" then
             rollHelper len False (swap arr)
         else
-            -- Return an empty array
-            []
+            -- return the array, used in mainLoop
+            arr
     else
         -- Return an empty array
         []   

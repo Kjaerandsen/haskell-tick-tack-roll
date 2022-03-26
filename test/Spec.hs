@@ -126,7 +126,7 @@ testRoll =
         it "Right roll 5x5 grid" $ do
             roll "right" [1..25] `shouldBe` [21,16,11,6,5,22,17,12,7,2,23,18,13,8,3,24,19,14,9,4,25,20,15,10,1]
         it "Roll no direction 3x3 grid" $ do
-            roll "" [1..9] `shouldBe` []
+            roll "" [1..9] `shouldBe` [1,2,3,4,5,6,7,8,9]
         it "Invalid grid size" $ do
             roll "right" [1..16] `shouldBe` []
         it "Roll right no grid" $ do
