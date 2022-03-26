@@ -44,7 +44,7 @@ printLine i = do
     if (length i) > 0 then do
         putChar (head i)
         putChar ' '
-        --printLine (tail i)
+        printLine (tail i)
     else
         putStr "\n"
 
