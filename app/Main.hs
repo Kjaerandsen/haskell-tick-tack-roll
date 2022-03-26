@@ -16,14 +16,16 @@ mainInit mode boardSize = do
     putStrLn board
     -- Do the first bot move if the bot should start (mode == 1)
     if mode == 1 then do
-        -- botMove
-        mainLoopPVB 'O' 'X' board
+        let updatedBoard = botMove
+        mainLoopPVB 'O' 'X' updatedBoard
     -- Else start the game as usual
-    else
+    else if mode == 0 then
         -- add a check for mode, 0 = pvb, 2 = pvp
         mainLoopPVB 'X' 'O' board
+    else
+        mainLoopPVP 'X' 'O' board
 
--- | mainLoop for player vs bot
+-- | mainLoop for player vs bot, recurses until a winner is printed
 mainLoopPVB :: Char -> Char -> [Char] -> IO()
 mainLoopPVB playerPiece botPiece board = do
     printBoard board
@@ -35,10 +37,7 @@ mainLoopPVB playerPiece botPiece board = do
     
     -- If the move is invalid
     if (inputData!!0) == " " then do
-        if playerPiece == 'O' then
-            printWinner 'X'
-        else
-            printWinner 'O'
+        printWinner botPiece
     else do
         -- Error handling?
         let move = read (inputData!!0)
@@ -73,33 +72,47 @@ mainLoopPVB playerPiece botPiece board = do
         -- If the player wins
         else do
             printWinner botPiece
+
+-- | Main loop for pvp gameplay (recurses with alternating player pieces), recurses until a winner is printed
+mainLoopPVP :: Char -> Char -> [Char] -> IO()
+mainLoopPvP playerPiece nextPlayerPiece board = do
+    printBoard board
+
+    -- Take player input
+    inputLine <- getLine
+    -- Parse the player input
+    let inputData = words inputLine
     
+    -- If the move is invalid
+    if (inputData!!0) == " " then do
+        printWinner nextPlayerPiece
+    else do
+        -- Error handling?
+        let move = read (inputData!!0)
+        -- parse the input
+        let updatedBoard = doMove playerPiece move board
+        
+        if updatedBoard /= [] then do
+            if (length inputData > 1) then do
+                let updatedBoard = roll (inputData!!1) updatedBoard
+                -- Check for victory
+                let winner = winCheck updatedBoard
+                if winner == '_' then do
+                    -- Recurse if no winner
+                    mainLoopPVP nextPlayerPiece playerPiece updatedBoard
+                else
+                    printWinner winner
+            else do
+                let winner = winCheck updatedBoard
+                if winner == '_' then
+                    printWinner winner
+                else do
+                    -- Recurse if no winner
+                    mainLoopPVP nextPlayerPiece playerPiece updatedBoard
+        -- If the player wins
+        else do
+            printWinner nextPlayerPiece
 
--- | playerMove takes a player move, performs it and checks if a win condition occurrs
--- Char which decides which piece the player plays
--- Char array containing the game board
-
--- needs to simply return the board instead of winner, have another winner check in the calling function instead
-playerMove :: Char -> Int -> [Char] -> [Char] -> [Char]
-playerMove playerPiece move direction board = do
-    -- Do the move here
-    -- TODO: check if a winner is found at the move first, then the roll
-    roll direction (doMove playerPiece move board)
-
--- WinCheck
--- if boardState == [] then
---        '_'
---    else do
-        -- Check for a winner
---        let winner = winCheck board
---        if winner /= '_' then
---            -- Return the winner if there is one
---            winner
---        else if (membersInList '_' board) == 0 then
---            -- If there is no winner and all tiles are used up return a tie
---            '_'
---        else
---            ' '
 
 -- | botMove does a move for the bot, returns the board if no winner, else returns the winning party
 botMove :: Char -> [Char] -> [Char]
@@ -110,6 +123,7 @@ botMove piece board = do
     -- Rotate if wanted
     -- Return the winner when there is one, if no winner return the board
     ['X']
+
 
 -- | doMove takes a move and a board, returns the board if the move is successfull
 -- else if the spot is occupied returns an empty array
