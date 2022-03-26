@@ -1,14 +1,15 @@
 module Lib
     ( printBoard,
       winCheck,
-      membersInList
+      membersInList,
+      printWinner
     ) where
 
 import Roll -- For checking if the board size is valid
 
 -- | printBoard takes a board and prints it to the screen, error message if the board is invalid
 -- uses the helper function printLineByLine to print each line of the array
-printBoard :: [a] -> IO()
+printBoard :: [Char] -> IO()
 printBoard arr = do
     let len = lengthCheck arr
     if len /= 0 then do
@@ -27,7 +28,7 @@ printWinner winner = do
 
 -- | printLineByLine takes a line length and a line list and prints the list line by line
 -- uses the printLine helper function to print each line
-printLineByLine :: Int -> [Int] -> IO()
+printLineByLine :: Int -> [Char] -> IO()
 printLineByLine len arr = do
     if length arr >= len then do
         putStr "# "
@@ -38,12 +39,12 @@ printLineByLine len arr = do
 
 -- | printLine takes an array of integers and prints them one by one separated by a single space
 -- when done also print a line break
-printLine :: [Int] -> IO()
+printLine :: [Char] -> IO()
 printLine i = do
     if (length i) > 0 then do
-        putStr (show (head i))
+        putChar (head i)
         putChar ' '
-        printLine (tail i)
+        --printLine (tail i)
     else
         putStr "\n"
 
