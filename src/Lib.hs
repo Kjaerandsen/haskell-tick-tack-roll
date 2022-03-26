@@ -8,13 +8,22 @@ import Roll -- For checking if the board size is valid
 
 -- | printBoard takes a board and prints it to the screen, error message if the board is invalid
 -- uses the helper function printLineByLine to print each line of the array
-printBoard :: [Int] -> IO()
+printBoard :: [a] -> IO()
 printBoard arr = do
     let len = lengthCheck arr
     if len /= 0 then do
         printLineByLine len arr
     else do
         putStrLn "Error: unable to print board due to invalid board size"
+
+-- | printWinner takes a winner and prints a win-message to the screen
+printWinner :: Char -> IO()
+printWinner winner = do
+    if winner /= '_' then do
+        let string = "GAME OVER " ++ [winner] ++ " WON"
+        putStrLn string
+    else
+        putStrLn "GAME OVER DRAW"
 
 -- | printLineByLine takes a line length and a line list and prints the list line by line
 -- uses the printLine helper function to print each line
