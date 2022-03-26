@@ -28,7 +28,6 @@ library:
 executables:
   haskell-tick-tack-roll-exe:
     main:                Main.hs
-    other-modules: []
     source-dirs:         app
     ghc-options:
     - -threaded
