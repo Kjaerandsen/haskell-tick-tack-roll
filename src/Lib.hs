@@ -20,7 +20,7 @@ printBoard arr = do
 -- | printWinner takes a winner and prints a win-message to the screen
 printWinner :: Char -> IO()
 printWinner winner = do
-    if winner /= '_' then do
+    if winner /= ' ' then do
         let string = "GAME OVER " ++ [winner] ++ " WON"
         putStrLn string
     else
@@ -49,7 +49,7 @@ printLine i = do
         putStr "\n"
 
 -- | winCheck takes a grid, determines the grid size and player pieces, returns the winner
--- or blank if no winner in the current board state
+-- , underscore if no winner and space if a tie.
 winCheck :: [Char] -> Char
 winCheck arr = do
     -- get the line length
@@ -66,7 +66,13 @@ winCheck arr = do
                 result 
             else do -- Check vertical lines
                 let result = winCheckHorizontal len (rollHelper len True arr)
-                result
+                if result /= '_' then
+                    result
+                else
+                    if membersInList '_' arr == 0 then
+                        ' '
+                    else
+                        '_'
     else -- Default to blank output if invalid input
         '_'
 
