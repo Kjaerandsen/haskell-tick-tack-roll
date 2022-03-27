@@ -45,7 +45,7 @@ testMoves moves piece board = do
 
 
 -- | testMovesRoll, same as testMoves, but with rolling.
-testMovesRoll :: [Int] -> Char -> [Char] -> Int
+testMovesRoll :: [Int] -> Char -> [Char] -> [Char]
 testMovesRoll moves piece board = do
     if (length moves) > 0 then do
         -- Calculate the board after the move
@@ -54,17 +54,18 @@ testMovesRoll moves piece board = do
         let rolledBoard = roll "left" updatedBoard
         let winner = winCheck rolledBoard
         if winner /= piece then do
-            let rolledBoard = roll "left" updatedBoard
+            let rolledBoard = roll "right" updatedBoard
             let winner = winCheck rolledBoard
             if winner /= piece then
-                testMoves (tail moves) piece board
+                testMovesRoll (tail moves) piece board
             else
                 -- Returns the winning move if there is one
-                head moves
+                ((show (head moves)) ++ " right")
         else
             -- Return the winning move if there is one
-            head moves
+            ((show (head moves)) ++ " left")
     else
-        0
+        ""
 
--- >>> testMovesRoll 
+-- >>> testMovesRoll [1,2] "__X_XOOOX" 'X'
+-- "1 left"

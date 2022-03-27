@@ -6,7 +6,8 @@ import Test.Hspec.QuickCheck(prop)
 
 -- Functions to test
 import Roll -- Rolling functions
-import Lib -- Other functions
+import Lib  -- Other functions
+import Bot  -- Bot functions
 
 main :: IO ()
 main = do
@@ -23,7 +24,12 @@ main = do
         testRollHelper
         testRoll
         testWinCheck
-        
+        testCreateDiagonalLines
+        testCreateDiagonalFromCoords
+        testDoMove
+        testFindPossibleMoves
+        testTestMoves
+        testTestMovesRoll
 
 testSquaredInteger :: Spec
 testSquaredInteger =
@@ -173,3 +179,55 @@ testWinCheck =
         it "invalid board" $ do
             winCheck ([]::[Char]) `shouldBe` '_'
         
+--testcreateDiagonalLineHelper :: Spec
+--testcreateDiagonalLinesHelper = do
+
+testCreateDiagonalLines :: Spec
+testCreateDiagonalLines =
+    describe "Tests for createDiagonalLines function" $ do
+        it "3x3 grid" $ do
+            createDiagonalLines 3 (take 9 (repeat '_')) `shouldBe` "______"
+        it "5x5 grid" $ do
+            createDiagonalLines 5 (take 25 (repeat '_')) `shouldBe` "__________"
+
+
+testCreateDiagonalFromCoords :: Spec
+testCreateDiagonalFromCoords =
+    describe "Tests for createDiagonalLinesFromCoords function" $ do
+        it "3x3 grid" $ do
+            createDiagonalFromCoords [0,4,8,2,4,6] ['X','X','X','O','X','O','X','_','X'] `shouldBe` "XXXXXX"
+        it "5x5 grid" $ do
+            createDiagonalFromCoords [0,6,12,18,24,4,8,12,16,20] "X____X____X____X____X___X" `shouldBe` "X___X____X"
+
+testDoMove :: Spec
+testDoMove =
+    describe "Tests for doMove function" $ do
+        it "3x3 grid place into empty slot" $ do
+            doMove 'X' 9 "_________" `shouldBe` "________X"
+        it "3x3 grid occupied slot" $ do
+            doMove 'X' 9 "________X" `shouldBe` ""
+        it "3x3 grid invalid slot" $ do
+            doMove 'X' 12 "_________" `shouldBe` ""
+
+  
+testFindPossibleMoves :: Spec
+testFindPossibleMoves =
+    describe "Tests for findPossibleMoves function" $ do
+        it "3x3 grid" $ do
+            findPossibleMoves ['X','X','X','O','X','O','X','_','X'] 1 [] `shouldBe` [8]
+        it "Empty 3x3 grid" $ do
+            findPossibleMoves "_________" 1 [] `shouldBe` [1..9]        
+
+testTestMoves :: Spec
+testTestMoves =
+    describe "Tests for findPossibleMoves function" $ do
+        it "3x3 grid winning play" $ do
+            testMoves [2,3,6,7,8] 'X' "O__XX___O" `shouldBe` 6
+        it "3x3 grid no winning move" $ do
+            testMoves [2,3,6,7,8] 'X' "O__X__X_O" `shouldBe` 0
+
+testTestMovesRoll :: Spec
+testTestMovesRoll =
+    describe "Tests for testRoll function" $ do
+        it "Winning left roll" $ do
+            testMovesRoll [1,2] 'X' "__X_XOOOX" `shouldBe` "1 left"

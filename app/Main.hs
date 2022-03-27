@@ -157,7 +157,7 @@ botMove piece board = do
             (show winningMove ++ " W")
         else do
             let winningMove = testMovesRoll moves piece board
-            if winningMove /= 0 then do
+            if winningMove /= "" then do
                 -- Return the winning move
                 ((show winningMove) ++ " W")
             else do

@@ -3,7 +3,9 @@ module Lib
       winCheck,
       membersInList,
       printWinner,
-      doMove
+      doMove,
+      createDiagonalFromCoords,
+      createDiagonalLines
     ) where
 
 import Roll -- For checking if the board size is valid
