@@ -7,7 +7,22 @@ import System.Environment -- For arguments
 
 main :: IO ()
 main = do
-    mainInit 1 3
+    -- Take arguments, first arg for mode, second for board size?
+    args <- getArgs
+    if args /= [] then do
+        -- Check the length of the args, if bigger than one read the second as board size
+        if length args > 1 then do
+            mainInit 1 3
+        else do
+        -- else just start with the first as mode
+            let test = head(args) -- Take only the first argument
+            let test2 = read ((words test) !! 0) -- Read it as an integer
+            if test2 > 2 || test2 < 0 then
+                mainInit 1 3 -- If invalid input arg use the default
+            else
+                mainInit test2 3
+    else
+        mainInit 1 3
 
 -- | mainInit function for setting up the game, decide board size, mode (vs bot or player),
 -- if bot then which piece the bot plays as. Possibly also bot difficulty.
