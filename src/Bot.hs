@@ -4,6 +4,9 @@ module Bot
     findPossibleMoves
     ) where
 
+import Lib
+import Roll
+
 -- | botMove does a move for the bot, returns the board if no winner, else returns the winning party
 botMove :: Char -> [Char] -> [Char]
 botMove piece board = do
@@ -30,6 +33,7 @@ findPossibleMoves board counter moves = do
             findPossibleMoves (tail board) (counter+1) moves
     else
         moves
+
 -- >>> findPossibleMoves "O__XX___O" 1 []
 -- [2,3,6,7,8]
 --
@@ -48,6 +52,32 @@ testMoves moves piece board = do
             head moves
     else
         0
+
 -- >>> testMoves [2,3,6,7,8] 'X' "O__XX___O"
 -- 6
 --
+
+-- | testMovesRoll, same as testMoves, but with rolling.
+testMovesRoll :: [Int] -> Char -> [Char] -> Int
+testMovesRoll moves piece board = do
+    if (length moves) > 0 then do
+        -- Calculate the board after the move
+        let updatedBoard = doMove piece (head moves) board
+        -- Roll the board to the left and test
+        let rolledBoard = roll "left" updatedBoard
+        let winner = winCheck rolledBoard
+        if winner == '_' then do
+            let rolledBoard = roll "left" updatedBoard
+            let winner = winCheck rolledBoard
+            if winner == '_' then
+                testMoves (tail moves) piece board
+            else
+                -- Returns the winning move if there is one
+                head moves
+        else
+            -- Return the winning move if there is one
+            head moves
+    else
+        0
+
+-- >>> testMovesRoll 
