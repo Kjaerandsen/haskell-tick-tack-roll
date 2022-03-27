@@ -1,28 +1,11 @@
 module Bot
-    ( botMove,
-      testMoves,
+    ( testMoves,
       findPossibleMoves,
       testMovesRoll
     ) where
 
 import Lib
 import Roll
-
--- | botMove does a move for the bot, returns the board if no winner, else returns the winning party
-botMove :: Char -> [Char] -> [Char]
-botMove piece board = do
-    -- Create a list of possible moves
-    --let moves = findPossibleMoves board 1 []
-    -- Check if a move results in a victory
-    -- Perform the move
-
-    -- Else check with rotation
-    
-    -- Else do random random
-
-
-    -- Return the winner when there is one, if no winner return the board
-    "____X____"
 
 
 -- | findPossibleMoves takes a board, and a counter. Returns a list of possible move coordinates.
@@ -70,10 +53,10 @@ testMovesRoll moves piece board = do
         -- Roll the board to the left and test
         let rolledBoard = roll "left" updatedBoard
         let winner = winCheck rolledBoard
-        if winner == '_' then do
+        if winner /= piece then do
             let rolledBoard = roll "left" updatedBoard
             let winner = winCheck rolledBoard
-            if winner == '_' then
+            if winner /= piece then
                 testMoves (tail moves) piece board
             else
                 -- Returns the winning move if there is one
