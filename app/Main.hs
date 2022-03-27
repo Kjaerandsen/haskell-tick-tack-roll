@@ -5,7 +5,7 @@ import Lib
 
 main :: IO ()
 main = do
-    mainInit 0 3
+    mainInit 2 3
 
 -- Function for setting up the game, decide board size, mode (vs bot or player),
 -- if bot then which piece the bot plays as. Possibly also bot difficulty.
@@ -16,18 +16,18 @@ mainInit mode boardSize = do
     putStrLn board
     -- Do the first bot move if the bot should start (mode == 1)
     if mode == 1 then do
-        let updatedBoard = botMove
-        mainLoopPVB 'O' 'X' updatedBoard
+        let updatedBoard = botMove 'X' board
+        mainLoopPvB 'O' 'X' updatedBoard
     -- Else start the game as usual
     else if mode == 0 then
         -- add a check for mode, 0 = pvb, 2 = pvp
-        mainLoopPVB 'X' 'O' board
+        mainLoopPvB 'X' 'O' board
     else
-        mainLoopPVP 'X' 'O' board
+        mainLoopPvP 'X' 'O' board
 
 -- | mainLoop for player vs bot, recurses until a winner is printed
-mainLoopPVB :: Char -> Char -> [Char] -> IO()
-mainLoopPVB playerPiece botPiece board = do
+mainLoopPvB :: Char -> Char -> [Char] -> IO()
+mainLoopPvB playerPiece botPiece board = do
     printBoard board
 
     -- Take player input
@@ -49,32 +49,32 @@ mainLoopPVB playerPiece botPiece board = do
                 let updatedBoard = roll (inputData!!1) updatedBoard
                 -- Check for victory
                 let winner = winCheck updatedBoard
-                if winner == '_' then do
+                if winner /= ' ' then do
                     -- The bot makes his move
                     let updatedBoard = botMove botPiece updatedBoard
                     if (length updatedBoard) > 1 then
-                        mainLoopPVB playerPiece botPiece updatedBoard
+                        mainLoopPvB playerPiece botPiece updatedBoard
                     else
                         printWinner (updatedBoard!!0)
                 else
                     printWinner winner
             else do
                 let winner = winCheck updatedBoard
-                if winner == '_' then
-                    printWinner winner
-                else do
+                if winner /= ' ' then do
                     -- The bot makes his move
                     let updatedBoard = botMove botPiece updatedBoard
                     if (length updatedBoard) > 1 then
-                        mainLoopPVB playerPiece botPiece updatedBoard
+                        mainLoopPvB playerPiece botPiece updatedBoard
                     else
                         printWinner (updatedBoard!!0)
+                else
+                    printWinner winner
         -- If the player wins
         else do
             printWinner botPiece
 
 -- | Main loop for pvp gameplay (recurses with alternating player pieces), recurses until a winner is printed
-mainLoopPVP :: Char -> Char -> [Char] -> IO()
+mainLoopPvP :: Char -> Char -> [Char] -> IO()
 mainLoopPvP playerPiece nextPlayerPiece board = do
     printBoard board
 
@@ -82,7 +82,7 @@ mainLoopPvP playerPiece nextPlayerPiece board = do
     inputLine <- getLine
     -- Parse the player input
     let inputData = words inputLine
-    
+    putStrLn (show (length inputData))
     -- If the move is invalid
     if (inputData!!0) == " " then do
         printWinner nextPlayerPiece
@@ -97,18 +97,18 @@ mainLoopPvP playerPiece nextPlayerPiece board = do
                 let updatedBoard = roll (inputData!!1) updatedBoard
                 -- Check for victory
                 let winner = winCheck updatedBoard
-                if winner == '_' then do
+                if winner /= ' ' then do
                     -- Recurse if no winner
-                    mainLoopPVP nextPlayerPiece playerPiece updatedBoard
+                    mainLoopPvP nextPlayerPiece playerPiece updatedBoard
                 else
                     printWinner winner
             else do
                 let winner = winCheck updatedBoard
-                if winner == '_' then
-                    printWinner winner
-                else do
+                if winner /= ' ' then
                     -- Recurse if no winner
-                    mainLoopPVP nextPlayerPiece playerPiece updatedBoard
+                    mainLoopPvP nextPlayerPiece playerPiece updatedBoard
+                else do
+                    printWinner winner
         -- If the player wins
         else do
             printWinner nextPlayerPiece
@@ -122,7 +122,7 @@ botMove piece board = do
     -- Perform the move
     -- Rotate if wanted
     -- Return the winner when there is one, if no winner return the board
-    ['X']
+    "____X____"
 
 
 -- | doMove takes a move and a board, returns the board if the move is successfull
