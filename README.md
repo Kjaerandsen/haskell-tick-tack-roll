@@ -7,6 +7,12 @@ Tick tack roll is a digital version of tick tack toe which adds the option to ro
 This allows for more interesting gameplay decisions. Rolling simply works by first swapping the first and last pieces on the first row of the board,
 then rotating the board either to the left or to the right.
 
+Win conditions:
+The game is won for a player if the player has the grid size amount of pieces in a row.
+For example if the grid is three by three squares, a line of three pieces in any direction is a win.
+If a player tries to perform an illegal move the enemy player wins.
+If there are no available tiles left in the grid the game is a draw.
+
 ## Running the program
 The program can be run without any parameters, it then defaults to playing against a bot, the bot having the first move and playing as x on a three by three grid.
 
@@ -15,6 +21,13 @@ gamemode and gridsize
 
 - gamemode: a number deciding the gamemode. 0 is against the bot with you playing as x (starting), 1 the bot starts and 2 is player vs player, defaults to one.
 - gridsize: a number deciding the size of the grid, minimum value of three, only valid as odd numbers (3 + 2x sizes), defaults to three.
+
+Input:
+After the board is printed the user can input a number and a direction to roll if wanted. The number corresponds to the place in the grid the user wants to place their piece. This is a number which is counted up by reading line by line left to right. First tile is 1, second on the same row is 2 etc.
+Example inputs:
+5 left
+2
+3 right
 
 ## Building and testing
 The program uses stack to build and test.
