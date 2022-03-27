@@ -35,6 +35,7 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - haskell-tick-tack-roll
+    - random
 
 tests:
   haskell-tick-tack-roll-test:

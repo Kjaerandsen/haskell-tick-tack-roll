@@ -4,6 +4,7 @@ import Roll               -- Rolling functions
 import Lib                -- Other game logic
 import Bot                -- Bot ai / functions
 import System.Environment -- For arguments
+import System.Random      -- For bot random move
 
 main :: IO ()
 main = do
@@ -90,8 +91,12 @@ mainLoopPvB playerPiece botPiece board = do
                         printWinner botPiece
                     else do
                         -- Do the bot move and recurse
-                        putStrLn moveOfBot
-                        mainLoopPvB playerPiece botPiece (doMove botPiece (read moveOfBot) updatedBoard)
+                        -- Chose a random bot move, perform it and recurse
+                        let moves = findPossibleMoves board 1 []
+                        let numberOfMoves = length moves
+                        moveNumber <- randomRIO (1::Int, numberOfMoves::Int)
+                        putStrLn (show (moves!!(moveNumber-1)))
+                        mainLoopPvB playerPiece botPiece (doMove botPiece (moves!!(moveNumber-1)) updatedBoard)
                 else
                     printWinner winner
         -- If the player wins
@@ -159,7 +164,7 @@ botMove piece board = do
             let winningMove = testMovesRoll moves piece board
             if winningMove /= "" then do
                 -- Return the winning move
-                ((show winningMove) ++ " W")
+                (show winningMove ++ " W")
             else do
-                -- Random move if there is no directly winning move
-                show (moves!!0)
+                -- Random move handled in the mainLoopPvB function instead
+                "D"

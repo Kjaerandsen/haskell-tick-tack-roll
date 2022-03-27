@@ -77,7 +77,7 @@ Time tracking:
 
 - Bot ai:
 30m thinking
-78m coding
+138m coding
 
 - main gameplay loop:
 25m planning
@@ -102,11 +102,11 @@ Time tracking:
 90m coding
 
 - Total:
-14h 06m coding (846m)
+15h 06m coding (906m)
 43m researching
 1h 20m thinking
 
 - Total time spent:
-16h 9m
+17h 9m
 
 Sidenote: The line between coding and researching / thinking is a little blurred. I tend to do theese actions at the same time so the coding part is skewed larger than the others.
