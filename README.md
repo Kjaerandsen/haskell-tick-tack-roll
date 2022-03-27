@@ -61,6 +61,7 @@ Playing against another player.
 - When i started implementing the main gameplay loop a lot of challenges appeared, as i am not very familiar with haskell i struggled estimating time and planning how to divide the tasks into smaller pieces and functions. So the work got less organized and a little messy. Writing pseudo-code helped, but i probably should have spent more time thinking/planning and divided the work into smaller chunks which could be tested as individually. As i ended up with a lot of problems resulting from bloated functions which relied on a lot of small parts, leading to difficulty testing and fixing the functions.
 - Better error handling would also be something i would focus on if i were to do this again.
 - Implementing arbitrary grid sizes was a fun challenge which took up a lot of my time spent on the project.
+- When the bot does a turn with both a move and a roll direction the printout includes '"', i did not find a fix for this. Probably something to do with how i get the string.
 
 Time tracking:
 
