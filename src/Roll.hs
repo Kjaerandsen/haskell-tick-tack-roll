@@ -63,9 +63,9 @@ roll :: String -> [a] -> [a]
 roll s arr = do
     let len = lengthCheck arr
     if len /= 0 then do
-        if s == "left" then
+        if (take 4 s) == "left" then
             rollHelper len True (swap arr)
-        else if s == "right" then
+        else if (take 5 s) == "right" then
             rollHelper len False (swap arr)
         else
             -- return the array, used in mainLoop

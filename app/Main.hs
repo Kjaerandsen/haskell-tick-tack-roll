@@ -82,7 +82,6 @@ mainLoopPvP playerPiece nextPlayerPiece board = do
     inputLine <- getLine
     -- Parse the player input
     let inputData = words inputLine
-    putStrLn (show (length inputData))
     -- If the move is invalid
     if (inputData!!0) == " " then do
         printWinner nextPlayerPiece
@@ -94,12 +93,12 @@ mainLoopPvP playerPiece nextPlayerPiece board = do
         
         if updatedBoard /= [] then do
             if (length inputData > 1) then do
-                let updatedBoard = roll (inputData!!1) updatedBoard
+                let updatedBoardRoll = roll (inputData!!1) updatedBoard
                 -- Check for victory
-                let winner = winCheck updatedBoard
+                let winner = winCheck updatedBoardRoll
                 if winner == '_' then do
                     -- Recurse if no winner
-                    mainLoopPvP nextPlayerPiece playerPiece updatedBoard
+                    mainLoopPvP nextPlayerPiece playerPiece updatedBoardRoll
                 else
                     printWinner winner
             else do
