@@ -97,7 +97,6 @@ mainLoopPvP playerPiece nextPlayerPiece board = do
                 let updatedBoard = roll (inputData!!1) updatedBoard
                 -- Check for victory
                 let winner = winCheck updatedBoard
-                putChar winner
                 if winner == '_' then do
                     -- Recurse if no winner
                     mainLoopPvP nextPlayerPiece playerPiece updatedBoard
@@ -105,7 +104,6 @@ mainLoopPvP playerPiece nextPlayerPiece board = do
                     printWinner winner
             else do
                 let winner = winCheck updatedBoard
-                putChar winner
                 if winner == '_' then
                     -- Recurse if no winner
                     mainLoopPvP nextPlayerPiece playerPiece updatedBoard
