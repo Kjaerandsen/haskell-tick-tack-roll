@@ -46,7 +46,7 @@ There is not proper error handling in parsing the input.
 Functions are split into three different libraries, bot functions in the bot library, roll functions in the roll library and helper functions for main in the lib library.
 The win messages are simplified to only display the piece of the winner (GAME OVER X WON/GAME OVER O WON/GAME OVER DRAW).
 When i started implementing the main gameplay loop a lot of challenges appeared, as i am not very familiar with haskell i struggled estimating time and planning how to divide the tasks into smaller pieces and functions. So the work got less organized and a little messy. Writing pseudo-code helped, but i probably should have spent more time thinking/planning and divided the work into smaller chunks which could be tested as individually. As i ended up with a lot of problems resulting from bloated functions which relied on a lot of small parts, leading to difficulty testing and fixing the functions.
-
+Better error handling would also be something i would focus on if i were to do this again.
 Implementing arbitrary grid sizes was a fun challenge which took up a lot of my time spent on the project.
 
 
