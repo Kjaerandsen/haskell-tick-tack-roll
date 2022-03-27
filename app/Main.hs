@@ -73,8 +73,11 @@ mainLoopPvB playerPiece botPiece board = do
                     -- The bot makes his move
                     let moveOfBot = botMove botPiece updatedBoard2
                     if (last moveOfBot) == 'W' then do
-                        putStr (init moveOfBot ++ "\n")
+                        putStrLn (take ((length moveOfBot)-2) moveOfBot)
                         printWinner botPiece
+                    else if (last moveOfBot) == '_' then do
+                        putStrLn (take ((length moveOfBot)-2) moveOfBot)
+                        printWinner '_'
                     else do
                         -- Do the bot move and recurse
                         putStrLn moveOfBot
@@ -87,8 +90,11 @@ mainLoopPvB playerPiece botPiece board = do
                     -- The bot makes his move
                     let moveOfBot = botMove botPiece updatedBoard
                     if (last moveOfBot) == 'W' then do
-                        putStrLn (init moveOfBot)
+                        putStrLn (take ((length moveOfBot)-2) moveOfBot)
                         printWinner botPiece
+                    else if (last moveOfBot) == '_' then do
+                        putStrLn (take ((length moveOfBot)-2) moveOfBot)
+                        printWinner '_'
                     else do
                         -- Do the bot move and recurse
                         -- Chose a random bot move, perform it and recurse
@@ -162,9 +168,12 @@ botMove piece board = do
             (show winningMove ++ " W")
         else do
             let winningMove = testMovesRoll moves piece board
-            if winningMove /= "" then do
+            if winningMove /= "" && winningMove /= "_" then do
                 -- Return the winning move
                 (show winningMove ++ " W")
+            else if winningMove /= "" then do
+                -- Return the winning and tie sign
+                (show winningMove ++ " _")
             else do
                 -- Random move handled in the mainLoopPvB function instead
                 "D"
