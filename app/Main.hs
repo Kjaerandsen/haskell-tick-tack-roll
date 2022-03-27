@@ -49,7 +49,7 @@ mainLoopPvB playerPiece botPiece board = do
                 let updatedBoard = roll (inputData!!1) updatedBoard
                 -- Check for victory
                 let winner = winCheck updatedBoard
-                if winner /= ' ' then do
+                if winner == '_' then do
                     -- The bot makes his move
                     let updatedBoard = botMove botPiece updatedBoard
                     if (length updatedBoard) > 1 then
@@ -60,7 +60,7 @@ mainLoopPvB playerPiece botPiece board = do
                     printWinner winner
             else do
                 let winner = winCheck updatedBoard
-                if winner /= ' ' then do
+                if winner == '_' then do
                     -- The bot makes his move
                     let updatedBoard = botMove botPiece updatedBoard
                     if (length updatedBoard) > 1 then
@@ -97,14 +97,16 @@ mainLoopPvP playerPiece nextPlayerPiece board = do
                 let updatedBoard = roll (inputData!!1) updatedBoard
                 -- Check for victory
                 let winner = winCheck updatedBoard
-                if winner /= ' ' then do
+                putChar winner
+                if winner == '_' then do
                     -- Recurse if no winner
                     mainLoopPvP nextPlayerPiece playerPiece updatedBoard
                 else
                     printWinner winner
             else do
                 let winner = winCheck updatedBoard
-                if winner /= ' ' then
+                putChar winner
+                if winner == '_' then
                     -- Recurse if no winner
                     mainLoopPvP nextPlayerPiece playerPiece updatedBoard
                 else do
