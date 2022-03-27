@@ -73,7 +73,7 @@ mainLoopPvB playerPiece botPiece board = do
                     -- The bot makes his move
                     let moveOfBot = botMove botPiece updatedBoard2
                     if (last moveOfBot) == 'W' then do
-                        putStrLn (init moveOfBot)
+                        putStr (init moveOfBot ++ "\n")
                         printWinner botPiece
                     else do
                         -- Do the bot move and recurse
@@ -92,7 +92,7 @@ mainLoopPvB playerPiece botPiece board = do
                     else do
                         -- Do the bot move and recurse
                         -- Chose a random bot move, perform it and recurse
-                        let moves = findPossibleMoves board 1 []
+                        let moves = findPossibleMoves updatedBoard 1 []
                         let numberOfMoves = length moves
                         moveNumber <- randomRIO (1::Int, numberOfMoves::Int)
                         putStrLn (show (moves!!(moveNumber-1)))
