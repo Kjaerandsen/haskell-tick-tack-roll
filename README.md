@@ -63,4 +63,3 @@ Better error handling would also be something i would focus on if i were to do t
 Implementing arbitrary grid sizes was a fun challenge which took up a lot of my time spent on the project.
 
 
-
