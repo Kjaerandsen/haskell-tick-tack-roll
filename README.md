@@ -44,6 +44,7 @@ The parameters to run the program decide gamemode and grid size as explained abo
 The bot currently defaults to the first open slot unless it sees a winning move in the grid.
 There is not proper error handling in parsing the input.
 Functions are split into three different libraries, bot functions in the bot library, roll functions in the roll library and helper functions for main in the lib library.
+The win messages are simplified to only display the piece of the winner (GAME OVER X WON/GAME OVER O WON/GAME OVER DRAW).
 
 Implementing arbitrary grid sizes was a fun challenge which took up a lot of my time spent on the project.
 
