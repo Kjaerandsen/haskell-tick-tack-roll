@@ -2,7 +2,8 @@ module Lib
     ( printBoard,
       winCheck,
       membersInList,
-      printWinner
+      printWinner,
+      doMove
     ) where
 
 import Roll -- For checking if the board size is valid
@@ -155,3 +156,30 @@ membersInListHelper x a = do
 -- same as mySignature function from haskell-01
 membersInList :: Eq a => a -> [a] -> Int
 membersInList z xs = sum [if z == x then 1 else 0 | x <- xs]
+
+-- | doMove takes a move and a board, returns the board if the move is successfull
+-- else if the spot is occupied returns an empty array
+doMove :: Char -> Int -> [Char] -> [Char]
+doMove piece move board = do
+    -- Check if the move is within the valid range for a move
+    if ((length board) < move) || (move < 1) then
+        []
+    -- Check if the tile is occupied already
+    else if board!!(move-1) /= '_' then
+        []
+    else
+        (take (move-1) board) ++ [piece] ++ drop move board
+
+-- | doMove tests:
+-- >>> doMove 'X' 10 ['X','O','X','O','X','O','_','_','_']
+-- ""
+--
+-- >>> doMove 'X' 9 ['X','O','X','O','X','O','_','_','_']
+-- "XOXOXO__X"
+--
+-- >>> doMove 'X' 1 ['X','O','X','O','X','O','_','_','_']
+-- ""
+--
+-- >>> doMove 'X' 1 ['_','O','X','O','X','O','_','_','_']
+-- "XOXOXO___"
+--
