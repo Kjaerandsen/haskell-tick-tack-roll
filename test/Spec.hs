@@ -113,6 +113,7 @@ testRollHelper =
         it "empty input array should produce empty output" $ do
             rollHelper 3 False ([]::[Int]) `shouldBe` []
 
+
 -- | testRoll test for roll function
 testRoll :: Spec
 testRoll =
@@ -131,6 +132,7 @@ testRoll =
             roll "right" [1..16] `shouldBe` []
         it "Roll right no grid" $ do
             roll "right" ([]::[Int]) `shouldBe` []
+
 
 -- | testWinCheck test for winCheck function
 testWinCheck :: Spec

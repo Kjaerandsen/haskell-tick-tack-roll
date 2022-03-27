@@ -1,7 +1,8 @@
 module Bot
     ( botMove,
-    testMoves,
-    findPossibleMoves
+      testMoves,
+      findPossibleMoves,
+      testMovesRoll
     ) where
 
 import Lib
@@ -23,6 +24,7 @@ botMove piece board = do
     -- Return the winner when there is one, if no winner return the board
     "____X____"
 
+
 -- | findPossibleMoves takes a board, and a counter. Returns a list of possible move coordinates.
 findPossibleMoves :: [Char] -> Int -> [Int] -> [Int]
 findPossibleMoves board counter moves = do
@@ -33,10 +35,11 @@ findPossibleMoves board counter moves = do
             findPossibleMoves (tail board) (counter+1) moves
     else
         moves
-
+        
 -- >>> findPossibleMoves "O__XX___O" 1 []
 -- [2,3,6,7,8]
 --
+
 
 -- | testMoves, goes through a list of moves against a board and checks if any move
 -- results in a victory, returns the winning move if there is one, else 0
@@ -56,6 +59,7 @@ testMoves moves piece board = do
 -- >>> testMoves [2,3,6,7,8] 'X' "O__XX___O"
 -- 6
 --
+
 
 -- | testMovesRoll, same as testMoves, but with rolling.
 testMovesRoll :: [Int] -> Char -> [Char] -> Int

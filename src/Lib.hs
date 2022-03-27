@@ -8,6 +8,7 @@ module Lib
 
 import Roll -- For checking if the board size is valid
 
+
 -- | printBoard takes a board and prints it to the screen, error message if the board is invalid
 -- uses the helper function printLineByLine to print each line of the array
 printBoard :: [Char] -> IO()
@@ -18,6 +19,7 @@ printBoard arr = do
     else do
         putStrLn "Error: unable to print board due to invalid board size"
 
+
 -- | printWinner takes a winner and prints a win-message to the screen
 printWinner :: Char -> IO()
 printWinner winner = do
@@ -26,6 +28,7 @@ printWinner winner = do
         putStrLn string
     else
         putStrLn "GAME OVER DRAW"
+
 
 -- | printLineByLine takes a line length and a line list and prints the list line by line
 -- uses the printLine helper function to print each line
@@ -38,6 +41,7 @@ printLineByLine len arr = do
     else
         return ()
 
+
 -- | printLine takes an array of integers and prints them one by one separated by a single space
 -- when done also print a line break
 printLine :: [Char] -> IO()
@@ -48,6 +52,7 @@ printLine i = do
         printLine (tail i)
     else
         putStr "\n"
+
 
 -- | winCheck takes a grid, determines the grid size and player pieces, returns the winner
 -- , underscore if no winner and space if a tie.
@@ -77,10 +82,12 @@ winCheck arr = do
     else -- Default to blank output if invalid input
         '_'
 
+
 -- | createDiagonalLines takes a board length and a board, returns the two diagonal lines' pieces as a list
 createDiagonalLines :: Int -> [Char] -> [Char]
 createDiagonalLines len board = do
     createDiagonalFromCoords ((createDiagonalLineHelper True len 0) ++ (createDiagonalLineHelper False len 0)) board
+
 
 -- | createDiagonalLineHelper line takes an array length and returns the left or right diagonal line
 -- according to the right bool
@@ -116,13 +123,13 @@ createDiagonalFromCoords coordinates board = [board!!x | x <- coordinates]
 -- >>> createDiagonalFromCoords [0,4,8,2,4,6] ['X','X','X','O','X','O','X','_','X']
 -- "XXXXXX"
 --
-
 -- >>> winCheckHorizontal 3 ['X','X','X','O','X','O','X','_','X']
 -- 'X'
 --
 -- >>> winCheckHorizontal 3 ['O','O','O','X','O','X','X','_','X']
 -- 'O'
 --
+
 
 -- | winCheckHorizontal takes a grid size and a grid, returns the winner or '_', for horizontal wins
 -- recurses until empty, if no winner before empty then return '_' 
@@ -135,8 +142,6 @@ winCheckHorizontal x a = do
         winner
     else
         winCheckHorizontal x (drop x a)
-
---winCheckDiagonal :: Bool -> [Char] -> Char
 
 
 -- | membersInListhelper, helper function for membersInList, 
@@ -156,6 +161,7 @@ membersInListHelper x a = do
 -- same as mySignature function from haskell-01
 membersInList :: Eq a => a -> [a] -> Int
 membersInList z xs = sum [if z == x then 1 else 0 | x <- xs]
+
 
 -- | doMove takes a move and a board, returns the board if the move is successfull
 -- else if the spot is occupied returns an empty array

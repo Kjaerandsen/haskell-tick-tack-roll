@@ -1,16 +1,15 @@
 module Main where
 
 import Roll -- Rolling functions
-import Lib
+import Lib  -- Other game logic
 import Bot  -- Bot ai / functions
 
 main :: IO ()
 main = do
     mainInit 1 3
 
--- Function for setting up the game, decide board size, mode (vs bot or player),
+-- | mainInit function for setting up the game, decide board size, mode (vs bot or player),
 -- if bot then which piece the bot plays as. Possibly also bot difficulty.
-
 mainInit :: Int -> Int -> IO()
 mainInit mode boardSize = do
     let board = take (boardSize*boardSize) (repeat '_')
@@ -25,6 +24,7 @@ mainInit mode boardSize = do
         mainLoopPvB 'X' 'O' board
     else
         mainLoopPvP 'X' 'O' board
+
 
 -- | mainLoop for player vs bot, recurses until a winner is printed
 mainLoopPvB :: Char -> Char -> [Char] -> IO()
@@ -74,11 +74,11 @@ mainLoopPvB playerPiece botPiece board = do
         else do
             printWinner botPiece
 
+
 -- | Main loop for pvp gameplay (recurses with alternating player pieces), recurses until a winner is printed
 mainLoopPvP :: Char -> Char -> [Char] -> IO()
 mainLoopPvP playerPiece nextPlayerPiece board = do
     printBoard board
-
     -- Take player input
     inputLine <- getLine
     -- Parse the player input
